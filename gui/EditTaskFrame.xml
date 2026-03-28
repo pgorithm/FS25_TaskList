@@ -10,7 +10,7 @@
             <Animation profile="fs25_dialogLoading" id="iconLoadingElement" />
             <Text profile="dialogTitle" id="titleText" text="$l10n_ui_edit_task" position="0px -30px" />
 
-            <GuiElement id="formRoot" position="0px -62px" size="880px 520px">
+            <GuiElement profile="editTaskFormRoot" id="formRoot" position="0px -62px" size="880px 520px">
                 <GuiElement profile="editTaskFormRow" id="taskTypeRow" position="0px 0px">
                     <Text profile="editTaskFieldLabel" id="taskTypeLabel" position="20px 6px" size="320px 40px" text="$l10n_ui_field_task_type" />
                     <MultiTextOption profile="editTaskMultiOption" id="taskTypeOption" position="348px 2px" size="512px 44px" onClick="onTaskTypeChange">
@@ -144,8 +144,6 @@
                         </GuiElement>
                     </GuiElement>
                 </GuiElement>
-
-                <Text profile="editTaskFooterHint" id="taskTypeDescriptionFooter" position="20px -440px" size="840px 72px" text="$l10n_ui_task_request_type_description" />
             </GuiElement>
         </GuiElement>
         <BoxLayout profile="fs25_dialogButtonBox">

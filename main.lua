@@ -516,6 +516,9 @@ function TaskList:currentMissionStarted()
     --         self.activeTasks[activeTask.groupId .. "_" .. activeTask.id] = nil
     --     end
     -- end
+    g_currentMission.taskList:updateHusbandries()
+    g_currentMission.taskList:updateProductions()
+
     g_currentMission.taskList:taskCleanup()
 
     g_currentMission.taskList:addOrClearAutoTasks()

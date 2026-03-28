@@ -3,8 +3,6 @@ EditTaskFrame._params = nil
 
 --- Row height in form layout (matches editTaskFormRow profile).
 local EDIT_TASK_ROW_H = 52
-local EDIT_TASK_FOOTER_GAP = 8
-local EDIT_TASK_FOOTER_H = 72
 
 local function trimWhitespace(str)
     return string.gsub(str or "", '^%s*(.-)%s*$', '%1')
@@ -48,6 +46,17 @@ local function editTaskSetRowY(elem, y)
         return
     end
     elem:setPosition("0px", string.format("%dpx", y))
+end
+
+function EditTaskFrame:_optionCallbacksSuppressed()
+    return (self._optionCallbackSuppressDepth or 0) > 0
+end
+
+--- Batch MultiTextOption setState/setTexts without treating engine-spurious onClick as user input.
+function EditTaskFrame:withSuppressedOptionCallbacks(fn)
+    self._optionCallbackSuppressDepth = (self._optionCallbackSuppressDepth or 0) + 1
+    fn()
+    self._optionCallbackSuppressDepth = math.max(0, (self._optionCallbackSuppressDepth or 1) - 1)
 end
 
 function EditTaskFrame.new(target, custom_mt)
@@ -126,7 +135,7 @@ function EditTaskFrame:layoutBlockAtY(block, innerRows, yCursor)
     return yCursor + inner
 end
 
---- Repack form rows so hidden fields leave no empty gaps; place task-type hint under the last row.
+--- Repack form rows so hidden fields leave no empty gaps.
 function EditTaskFrame:relayoutForm()
     if self.formRoot == nil then
         return
@@ -159,13 +168,9 @@ function EditTaskFrame:relayoutForm()
         sectionStart = -EDIT_TASK_ROW_H
     end
 
-    local innerEndY = 0
-    local hasMainContent = false
-
     if editTaskRowVisible(self.standardSection) then
         self.standardSection:setPosition("0px", string.format("%dpx", sectionStart))
-        innerEndY = self:layoutRowStack(self._standardRows or {}, 0)
-        hasMainContent = innerEndY ~= 0
+        self:layoutRowStack(self._standardRows or {}, 0)
     elseif editTaskRowVisible(self.linkedSection) then
         self.linkedSection:setPosition("0px", string.format("%dpx", sectionStart))
         local y2 = 0
@@ -179,23 +184,6 @@ function EditTaskFrame:relayoutForm()
             y2 = self:layoutBlockAtY(self.conditionBlock, self._conditionRows or {}, y2)
         elseif editTaskRowVisible(self.productionBlock) then
             y2 = self:layoutBlockAtY(self.productionBlock, self._productionRows or {}, y2)
-        end
-        innerEndY = y2
-        hasMainContent = innerEndY ~= 0 or editTaskRowVisible(self.husbandryPickRow)
-    end
-
-    if self.taskTypeDescriptionFooter ~= nil then
-        local showFooter = self:shouldShowTaskType()
-        self.taskTypeDescriptionFooter:setVisible(showFooter)
-        if showFooter then
-            self.taskTypeDescriptionFooter:setText(g_i18n:getText("ui_task_request_type_description"))
-            local footerY
-            if hasMainContent then
-                footerY = sectionStart + innerEndY + EDIT_TASK_ROW_H - EDIT_TASK_FOOTER_GAP - EDIT_TASK_FOOTER_H
-            else
-                footerY = -EDIT_TASK_FOOTER_GAP - EDIT_TASK_FOOTER_H
-            end
-            self.taskTypeDescriptionFooter:setPosition("20px", string.format("%dpx", footerY))
         end
     end
 end
@@ -525,7 +513,9 @@ function EditTaskFrame:populateRecurNOption()
             table.insert(self._recurNValues, v)
         end
     else
-        self.recurNOption:setTexts({})
+        self.recurNOption:setTexts({ "-" })
+        self._recurNValues = {}
+        self.recurNOption:setState(1, false)
         return
     end
     self.recurNOption:setTexts(texts)
@@ -638,6 +628,13 @@ function EditTaskFrame:updateVisibility()
     self.startPeriodRow:setVisible(needStart)
     self.periodRow:setVisible(needPeriod)
 
+    if self.recurNOption ~= nil and self.recurNOption.setDisabled ~= nil then
+        self.recurNOption:setDisabled(not needN)
+    end
+    if self.startPeriodOption ~= nil and self.startPeriodOption.setDisabled ~= nil then
+        self.startPeriodOption:setDisabled(not needStart)
+    end
+
     self:relayoutForm()
 end
 
@@ -660,13 +657,15 @@ function EditTaskFrame:onOpen()
         self.titleText:setText(g_i18n:getText("ui_add_task"))
     end
 
-    if self:shouldShowTaskType() then
-        self:populateTaskTypeOption()
-    else
-        self.task.type = Task.TASK_TYPE.Standard
-    end
-    self:syncStandardWidgetsFromTask()
-    self:populateLinkedForCurrentType()
+    self:withSuppressedOptionCallbacks(function()
+        if self:shouldShowTaskType() then
+            self:populateTaskTypeOption()
+        else
+            self.task.type = Task.TASK_TYPE.Standard
+        end
+        self:syncStandardWidgetsFromTask()
+        self:populateLinkedForCurrentType()
+    end)
     self:updateVisibility()
 end
 
@@ -675,81 +674,135 @@ function EditTaskFrame:onClose()
     self.groupId = nil
     self.group = nil
     self.task = nil
+    self._optionCallbackSuppressDepth = 0
 end
 
 function EditTaskFrame:onTaskTypeChange(index)
+    if self:_optionCallbacksSuppressed() then
+        return
+    end
     if self.task.type == Task.TASK_TYPE.Standard then
         self:readDetailFromUi()
     end
     self.task.type = self._taskTypeOrder[index] or Task.TASK_TYPE.Standard
-    self:populateLinkedForCurrentType()
+    self:withSuppressedOptionCallbacks(function()
+        self:populateLinkedForCurrentType()
+    end)
     self:updateVisibility()
     if self.task.type == Task.TASK_TYPE.Standard then
-        self:syncStandardWidgetsFromTask()
+        self:withSuppressedOptionCallbacks(function()
+            self:syncStandardWidgetsFromTask()
+        end)
+        self:updateVisibility()
     end
 end
 
-function EditTaskFrame:onEffortChange(index) end
-function EditTaskFrame:onPriorityChange(index) end
+function EditTaskFrame:onEffortChange(index)
+    if self:_optionCallbacksSuppressed() then return end
+end
+function EditTaskFrame:onPriorityChange(index)
+    if self:_optionCallbacksSuppressed() then return end
+end
 function EditTaskFrame:onShouldRecurChange(index)
-    self:populateRecurNOption()
+    if self:_optionCallbacksSuppressed() then return end
+    self:withSuppressedOptionCallbacks(function()
+        self:populateRecurNOption()
+    end)
     self:updateVisibility()
 end
 function EditTaskFrame:onRecurModeChange(index)
-    self:populateRecurNOption()
+    if self:_optionCallbacksSuppressed() then return end
+    self:withSuppressedOptionCallbacks(function()
+        self:populateRecurNOption()
+    end)
     self:updateVisibility()
 end
-function EditTaskFrame:onRecurNChange(index) end
-function EditTaskFrame:onStartPeriodChange(index) end
-function EditTaskFrame:onPeriodChange(index) end
+function EditTaskFrame:onRecurNChange(index)
+    if self:_optionCallbacksSuppressed() then return end
+end
+function EditTaskFrame:onStartPeriodChange(index)
+    if self:_optionCallbacksSuppressed() then return end
+end
+function EditTaskFrame:onPeriodChange(index)
+    if self:_optionCallbacksSuppressed() then return end
+end
 
 function EditTaskFrame:onHusbandryChange(index)
+    if self:_optionCallbacksSuppressed() then return end
     local h = self._husbandryList[index]
     if h ~= nil then
         self.task.objectId = h.id
     end
     if self.task.type == Task.TASK_TYPE.HusbandryFood then
-        self:populateFoodOptions()
+        self:withSuppressedOptionCallbacks(function()
+            self:populateFoodOptions()
+        end)
     elseif self.task.type == Task.TASK_TYPE.HusbandryConditions then
-        self:populateConditionOptions()
+        self:withSuppressedOptionCallbacks(function()
+            self:populateConditionOptions()
+        end)
     end
 end
 
-function EditTaskFrame:onFoodTypeChange(index) end
-function EditTaskFrame:onFoodLevelChange(index) end
+function EditTaskFrame:onFoodTypeChange(index)
+    if self:_optionCallbacksSuppressed() then return end
+end
+function EditTaskFrame:onFoodLevelChange(index)
+    if self:_optionCallbacksSuppressed() then return end
+end
 function EditTaskFrame:onConditionTypeChange(index)
+    if self:_optionCallbacksSuppressed() then return end
     local key = self._conditionKeys[index]
     if key ~= nil then
         self.task.husbandryCondition = key
     end
-    self:populateConditionOptions()
+    self:withSuppressedOptionCallbacks(function()
+        self:populateConditionOptions()
+    end)
 end
-function EditTaskFrame:onConditionEvalChange(index) end
-function EditTaskFrame:onConditionLevelChange(index) end
+function EditTaskFrame:onConditionEvalChange(index)
+    if self:_optionCallbacksSuppressed() then return end
+end
+function EditTaskFrame:onConditionLevelChange(index)
+    if self:_optionCallbacksSuppressed() then return end
+end
 
 function EditTaskFrame:onProductionChange(index)
+    if self:_optionCallbacksSuppressed() then return end
     local pr = self._productionList[index]
     if pr ~= nil then
         self.task.objectId = pr.id
     end
-    self:populateProductionFillAndLevel()
+    self:withSuppressedOptionCallbacks(function()
+        self:populateProductionFillAndLevel()
+    end)
 end
 
 function EditTaskFrame:onProductionIoChange(index)
+    if self:_optionCallbacksSuppressed() then return end
     self.task.productionType = index
-    self:populateProductionFillAndLevel()
+    self:withSuppressedOptionCallbacks(function()
+        self:populateProductionFillAndLevel()
+    end)
 end
 
 function EditTaskFrame:onProductionFillChange(index)
+    if self:_optionCallbacksSuppressed() then return end
     local key = self._fillKeys[index]
     if key ~= nil then
         self.task.productionFillType = key
     end
-    self:populateProductionFillAndLevel()
+    self:withSuppressedOptionCallbacks(function()
+        self:populateProductionFillAndLevel()
+    end)
 end
 
-function EditTaskFrame:onProductionEvalChange(index) end
-function EditTaskFrame:onProductionLevelChange(index) end
+function EditTaskFrame:onProductionEvalChange(index)
+    if self:_optionCallbacksSuppressed() then return end
+end
+function EditTaskFrame:onProductionLevelChange(index)
+    if self:_optionCallbacksSuppressed() then return end
+end
 
 function EditTaskFrame:getTaskDetailInputText()
     if self.taskDetailInput == nil then
