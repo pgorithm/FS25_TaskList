@@ -10,8 +10,7 @@
             <Animation profile="fs25_dialogLoading" id="iconLoadingElement" />
             <Text profile="dialogTitle" id="titleText" text="$l10n_ui_edit_task" position="0px -30px" />
 
-            <!-- Same vertical band as ManageTasks list (~-180px); grows downward, not into the title -->
-            <GuiElement profile="editTaskFormRoot" id="formRoot" position="32px -172px" size="856px 500px">
+            <GuiElement id="formRoot" position="0px -62px" size="880px 620px">
                 <GuiElement profile="editTaskFormRow" id="taskTypeRow" position="0px 0px">
                     <Text profile="editTaskFieldLabel" id="taskTypeHint" position="0px 6px" size="350px 40px" text="$l10n_ui_task_request_type_description" />
                     <MultiTextOption profile="editTaskMultiOption" id="taskTypeOption" position="358px 2px" size="490px 44px" onClick="onTaskTypeChange">
@@ -19,7 +18,7 @@
                     </MultiTextOption>
                 </GuiElement>
 
-                <GuiElement profile="editTaskSection" id="standardSection" position="0px 54px">
+                <GuiElement profile="editTaskSection" id="standardSection" position="0px 52px">
                     <GuiElement profile="editTaskFormRow" position="0px 0px">
                         <Text profile="editTaskFieldLabel" text="$l10n_ui_set_task_detail" position="0px 6px" size="350px 40px" />
                         <TextInput profile="editTaskTextInput" id="taskDetailInput" position="358px 4px" size="490px 40px" maxCharacters="45" />
@@ -68,7 +67,7 @@
                     </GuiElement>
                 </GuiElement>
 
-                <GuiElement profile="editTaskSection" id="linkedSection" position="0px 54px">
+                <GuiElement profile="editTaskSection" id="linkedSection" position="0px 52px">
                     <GuiElement profile="editTaskFormRow" id="husbandryPickRow" position="0px 0px">
                         <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_husbandry" position="0px 6px" size="350px 40px" />
                         <MultiTextOption profile="editTaskMultiOption" id="husbandryOption" position="358px 2px" size="490px 44px" onClick="onHusbandryChange">

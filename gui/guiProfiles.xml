@@ -60,7 +60,7 @@
     </Profile>
     <Profile name="editTaskFormRoot" extends="emptyPanel" with="anchorTopLeft pivotTopLeft" />
     <Profile name="editTaskSection" extends="emptyPanel" with="anchorTopLeft pivotTopLeft" />
-    <Profile name="editTaskFormRow" extends="emptyPanel" with="anchorTopStretchingX pivotTopLeft">
+    <Profile name="editTaskFormRow" extends="emptyPanel" with="anchorTopLeft pivotTopLeft">
         <height value="52px" />
     </Profile>
     <Profile name="editTaskFieldLabel" extends="baseReference" with="anchorTopLeft pivotTopLeft">
