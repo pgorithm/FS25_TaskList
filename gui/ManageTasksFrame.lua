@@ -128,7 +128,10 @@ function ManageTasksFrame:onClickAdd(sender)
         return
     end
 
-    EditTaskFrame.open(self.currentGroupId, self.currentGroup, Task.new(), false)
+    local groupId = self.currentGroupId
+    local group = self.currentGroup
+    self:close()
+    EditTaskFrame.open(groupId, group, Task.new(), false, true)
 end
 
 function ManageTasksFrame:onClickEdit(sender)
@@ -142,7 +145,10 @@ function ManageTasksFrame:onClickEdit(sender)
         InfoDialog.show(g_i18n:getText("ui_no_task_selected"))
         return
     end
-    EditTaskFrame.open(self.currentGroupId, self.currentGroup, task, true)
+    local groupId = self.currentGroupId
+    local group = self.currentGroup
+    self:close()
+    EditTaskFrame.open(groupId, group, task, true, true)
 end
 
 function ManageTasksFrame:onClickDelete(sender)

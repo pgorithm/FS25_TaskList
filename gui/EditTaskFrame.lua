@@ -65,7 +65,8 @@ function EditTaskFrame.new(target, custom_mt)
     return self
 end
 
-function EditTaskFrame.open(groupId, group, task, isEdit)
+--- @param reopenManageTasks boolean|nil If true, show manageTasksFrame again after this dialog closes (avoids stacking two MessageDialogs).
+function EditTaskFrame.open(groupId, group, task, isEdit, reopenManageTasks)
     local working = task
     if isEdit then
         working = Task.new()
@@ -75,7 +76,8 @@ function EditTaskFrame.open(groupId, group, task, isEdit)
         groupId = groupId,
         group = group,
         task = working,
-        isEdit = isEdit
+        isEdit = isEdit,
+        reopenManageTasks = reopenManageTasks == true
     }
     g_gui:showDialog("editTaskFrame")
 end
@@ -650,6 +652,7 @@ function EditTaskFrame:onOpen()
     self.group = p.group
     self.task = p.task
     self.isEdit = p.isEdit
+    self._reopenManageTasks = p.reopenManageTasks == true
 
     if self.isEdit then
         self.titleText:setText(g_i18n:getText("ui_edit_task"))
@@ -670,11 +673,16 @@ function EditTaskFrame:onOpen()
 end
 
 function EditTaskFrame:onClose()
+    local reopenManage = self._reopenManageTasks == true
+    self._reopenManageTasks = false
     EditTaskFrame:superClass().onClose(self)
     self.groupId = nil
     self.group = nil
     self.task = nil
     self._optionCallbackSuppressDepth = 0
+    if reopenManage then
+        g_gui:showDialog("manageTasksFrame")
+    end
 end
 
 function EditTaskFrame:onTaskTypeChange(index)
