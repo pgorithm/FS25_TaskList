@@ -461,6 +461,12 @@ function EditTaskFrame:updateVisibility()
     if not showType then
         self.task.type = Task.TASK_TYPE.Standard
     end
+    if self.task.type ~= Task.TASK_TYPE.Standard
+        and self.task.type ~= Task.TASK_TYPE.HusbandryFood
+        and self.task.type ~= Task.TASK_TYPE.HusbandryConditions
+        and self.task.type ~= Task.TASK_TYPE.Production then
+        self.task.type = Task.TASK_TYPE.Standard
+    end
 
     local std = self.task.type == Task.TASK_TYPE.Standard
     self.standardSection:setVisible(std)
@@ -486,57 +492,7 @@ function EditTaskFrame:updateVisibility()
     self.startPeriodRow:setVisible(needStart)
     self.periodRow:setVisible(needPeriod)
 
-    self:reflowStandardDynamicRows()
-    self:applyTaskTypeSectionOffset()
-end
-
-local function rowActuallyVisible(row)
-    if row == nil then
-        return false
-    end
-    if row.getIsVisible ~= nil then
-        return row:getIsVisible()
-    end
-    return row.visible ~= false
-end
-
---- Pack recurring / period rows under the fixed block (no gaps when middle rows are hidden).
-function EditTaskFrame:reflowStandardDynamicRows()
-    local y = 208
-    local function placeRow(row)
-        if not rowActuallyVisible(row) then
-            return
-        end
-        if row.setPosition ~= nil then
-            pcall(function()
-                row:setPosition(0, y)
-            end)
-        elseif row.position ~= nil then
-            row.position[2] = y
-        end
-        y = y + 52
-    end
-    placeRow(self.recurModeRow)
-    placeRow(self.recurNRow)
-    placeRow(self.startPeriodRow)
-    placeRow(self.periodRow)
-end
-
---- When the task-type row is hidden, pull standard/linked sections up (no empty gap under title).
-function EditTaskFrame:applyTaskTypeSectionOffset()
-    local showType = self:shouldShowTaskType()
-    local offset = showType and 54 or 0
-    for _, sec in ipairs({ self.standardSection, self.linkedSection }) do
-        if sec ~= nil then
-            if sec.setPosition ~= nil then
-                pcall(function()
-                    sec:setPosition(0, offset)
-                end)
-            elseif sec.position ~= nil then
-                sec.position[2] = offset
-            end
-        end
-    end
+    -- Keep XML-defined positions; runtime setPosition with pixel-like values can move rows out of viewport.
 end
 
 function EditTaskFrame:onOpen()
