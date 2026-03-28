@@ -25,11 +25,13 @@
         <text name="ui_btn_add_task" text="Ajouter une tâche"/>
         <text name="ui_btn_select_group" text="Changer de groupe"/>
         <text name="ui_set_group_name" text="Choisir un nom de groupe"/>
-        <text name="ui_set_task_detail" text="Décrire la tâche"/>
-        <text name="ui_set_task_priority" text="Définir la priorité de la tâche. Cela est utilisé pour ordonner les tâches en fonction de leur importance"/>
-        <text name="ui_set_task_should_recur" text="La tâche doit-elle se répéter?"/>
-        <text name="ui_set_task_period" text="Quelle est la date d'échéance de la tâche?"/>
-        <text name="ui_set_task_recur_mode" text="Quand la tâche doit-elle se répéter?"/>
+        <text name="ui_field_task_type" text="Type de tâche"/>
+        <text name="ui_field_production_evaluator" text="Déclencheur"/>
+        <text name="ui_set_task_detail" text="Description"/>
+        <text name="ui_set_task_priority" text="Priorité"/>
+        <text name="ui_set_task_should_recur" text="Récurrence"/>
+        <text name="ui_set_task_period" text="Échéance"/>
+        <text name="ui_set_task_recur_mode" text="Période"/>
         <text name="ui_set_task_recur_mode_monthly" text="Chaque mois"/>
         <text name="ui_set_task_recur_mode_n_months" text="Tous les %s mois"/>
         <text name="ui_set_task_recur_mode_n_days" text="Tous les %s jours"/>
@@ -37,8 +39,8 @@
         <text name="ui_task_due_monthly" text="Chaque %s"/>
         <text name="ui_task_due_n_months" text="Chaque %s mois"/>
         <text name="ui_task_due_n_days" text="Chaque %s jours"/>
-        <text name="ui_set_task_n_months" text="Quelle fréquence en mois doit la tâche être complétée?"/>
-        <text name="ui_set_task_n_days" text="Quelle fréquence en jours doit la tâche être complétée?"/>
+        <text name="ui_set_task_n_months" text="Mois"/>
+        <text name="ui_set_task_n_days" text="Jours"/>
         <text name="ui_group_exists_error" text="Un groupe avec ce nom existe déjà"/>
         <text name="ui_no_name_specified_error" text="Aucun nom pour le groupe n'a été spécifié"/>
         <text name="ui_no_detail_specified_error" text="Aucune détail pour la tâche n'a été spécifié"/>
@@ -57,7 +59,7 @@
         <text name="ui_confirm_complete_task" text="Confirmer la fin de la tâche : %s"/>
         <text name="ui_tasks_over_time" text="Chargement des tâches au fil du temps"/>
         <text name="ui_header_effort" text="Effort"/>
-        <text name="ui_set_task_effort" text="Définir le niveau d'effort pour cette tâche. Cela est utilisé pour différencier les petites et les grandes tâches lors du calcul du chargement au fil du temps"/>
+        <text name="ui_set_task_effort" text="Effort"/>
         <text name="ui_tasks_due_now" text="Tâches en cours"/>
         <text name="ui_intro_text_1" text="Pour commencer, utilisez Gérer les groupes pour créer un groupe. Un groupe standard est un conteneur logique pour les tâches liées, par exemple 'Champ 10', ou 'Tâches générales'"/>
         <text name="ui_intro_text_2" text="Une fois que vous avez créé un groupe, utilisez Gérer les tâches pour définir les choses que vous devez faire et quand. Les tâches afficheront ici comme des tâches en cours lorsque dûes"/>
@@ -79,10 +81,10 @@
         <text name="ui_confirm_deletion_template" text="Êtes-vous sûr de vouloir supprimer? Supprimer un modèle supprimera tous les groupes de modèle Instance associés"/>
         <text name="ui_set_task_effort_multiplier" text="Multiplier les valeurs d'effort pour ce groupe. Utilisez 1 pour utiliser les valeurs du modèle, ou définissez une valeur plus élevée si par exemple le groupe représente un grand champ"/>
         <text name="ui_task_request_type_description" text="Choisissez un type de tâche. Standard est texte libre. Husbandry peut suivre les entrées de nourriture et créer des tâches si les niveaux de nourriture tombent à zéro"/>
-        <text name="ui_task_request_husbandry" text="Sélectionnez l'husbandrie pour cette tâche"/>
-        <text name="ui_task_request_food_type" text="Sélectionnez le type de nourriture à suivre"/>
+        <text name="ui_task_request_husbandry" text="Élevage"/>
+        <text name="ui_task_request_food_type" text="Type d'aliment"/>
         <text name="ui_task_level_empty" text=" vide"/>
-        <text name="ui_task_request_food_level" text="Sélectionnez le niveau de nourriture à suivre. Lorsque le niveau tombe en dessous du cible, une tâche sera ajoutée pour remplir plus de nourriture"/>
+        <text name="ui_task_request_food_level" text="Niveau d'aliment"/>
         <text name="ui_task_food_fill" text="remplir"/>
         <text name="ui_husbandry_food_total" text="Totale"/>
         <text name="ui_task_food_fill_total" text="remplir la nourriture"/>
@@ -90,18 +92,18 @@
         <text name="ui_task_evaluator_greater_than" text="haute"/>
         <text name="ui_task_evaluator_less_than" text="faible"/>
         <text name="ui_type_husbandry_conditions" text="Conditions d'élevage"/>
-        <text name="ui_task_request_condition_type" text="Choisissez la condition à suivre."/>
-        <text name="ui_task_request_condition_evaluator" text="Choisissez la date d'échéance de la tâche. Vous pouvez la reporter lorsqu'elle passe sous la valeur cible ou lorsqu'elle la dépasse."/>
+        <text name="ui_task_request_condition_type" text="Condition"/>
+        <text name="ui_task_request_condition_evaluator" text="Déclencheur"/>
         <text name="ui_task_condition_evaluator_less_than" text="En dessous de l'objectif"/>
         <text name="ui_task_condition_evaluator_greater_than" text="Au-dessus de la cible"/>
-        <text name="ui_task_request_condition_level" text="Choisissez le niveau cible à suivre pour la condition."/>
+        <text name="ui_task_request_condition_level" text="Niveau cible"/>
         <text name="ui_type_production" text="Production"/>
-        <text name="ui_task_request_production" text="Choisissez la production pour cette tâche."/>
-        <text name="ui_task_request_production_type" text="Choisissez si vous souhaitez suivre une entrée ou une sortie de production."/>
-        <text name="ui_task_request_production_fill_type" text="Choisissez le type de remplissage à suivre.."/>
-        <text name="ui_task_request_production_level" text="Choisissez le niveau cible à suivre pour le type de remplissage."/>
+        <text name="ui_task_request_production" text="Production"/>
+        <text name="ui_task_request_production_type" text="Entrée / sortie"/>
+        <text name="ui_task_request_production_fill_type" text="Type de remplissage"/>
+        <text name="ui_task_request_production_level" text="Niveau cible"/>
         <text name="ui_task_production_input" text="Entrée"/>
         <text name="ui_task_production_output" text="Sortie"/>
-        <text name="ui_set_task_start_period" text="Définir le premier mois où la tâche doit être due."/>
+        <text name="ui_set_task_start_period" text="Premier mois"/>
     </texts>
 </l10n>

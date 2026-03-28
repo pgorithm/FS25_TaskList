@@ -73,4 +73,9 @@
     </Profile>
     <Profile name="editTaskMultiOption" extends="fs25_subCategorySelectorTabbed" with="anchorTopLeft pivotTopLeft" />
     <Profile name="editTaskTextInput" extends="fs25_textInput" with="anchorTopLeft pivotTopLeft" />
+    <Profile name="editTaskFooterHint" extends="taskListIntroText" with="anchorTopLeft pivotTopLeft">
+        <textSize value="14px" />
+        <textMaxNumLines value="5" />
+        <textLayoutMode value="truncate" />
+    </Profile>
 </GUIProfiles>

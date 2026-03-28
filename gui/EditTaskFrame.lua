@@ -1,6 +1,11 @@
 EditTaskFrame = {}
 EditTaskFrame._params = nil
 
+--- Row height in form layout (matches editTaskFormRow profile).
+local EDIT_TASK_ROW_H = 52
+local EDIT_TASK_FOOTER_GAP = 8
+local EDIT_TASK_FOOTER_H = 72
+
 local function trimWhitespace(str)
     return string.gsub(str or "", '^%s*(.-)%s*$', '%1')
 end
@@ -24,6 +29,26 @@ local function limitTaskDetailLength(str, maxLen)
 end
 
 local EditTaskFrame_mt = Class(EditTaskFrame, MessageDialog)
+
+--- @param elem GuiElement|nil
+local function editTaskRowVisible(elem)
+    if elem == nil then
+        return false
+    end
+    if elem.getIsVisible ~= nil then
+        return elem:getIsVisible()
+    end
+    return elem.isVisible ~= false
+end
+
+--- @param elem GuiElement|nil
+--- @param y number  Y offset in pixels (negative stacks downward in this dialog)
+local function editTaskSetRowY(elem, y)
+    if elem == nil or elem.setPosition == nil then
+        return
+    end
+    elem:setPosition("0px", string.format("%dpx", y))
+end
 
 function EditTaskFrame.new(target, custom_mt)
     local self = MessageDialog.new(target, custom_mt or EditTaskFrame_mt)
@@ -52,6 +77,127 @@ end
 
 function EditTaskFrame:onGuiSetupFinished()
     EditTaskFrame:superClass().onGuiSetupFinished(self)
+    self._standardRows = {
+        self.standardDetailRow,
+        self.standardEffortRow,
+        self.standardPriorityRow,
+        self.standardRecurToggleRow,
+        self.recurModeRow,
+        self.recurNRow,
+        self.startPeriodRow,
+        self.periodRow
+    }
+    self._foodRows = { self.foodTypeRow, self.foodLevelRow }
+    self._conditionRows = { self.conditionTypeRow, self.conditionEvalRow, self.conditionLevelRow }
+    self._productionRows = {
+        self.productionPickRow,
+        self.productionIoRow,
+        self.productionFillRow,
+        self.productionEvalRow,
+        self.productionLevelRow
+    }
+end
+
+--- Stack visible rows inside a section; returns next Y cursor (negative) inside that section.
+function EditTaskFrame:layoutRowStack(rows, startY)
+    local y = startY
+    for _, row in ipairs(rows) do
+        if editTaskRowVisible(row) then
+            editTaskSetRowY(row, y)
+            y = y - EDIT_TASK_ROW_H
+        end
+    end
+    return y
+end
+
+--- Position a block and stack its rows; returns next Y cursor relative to the same parent as the block.
+function EditTaskFrame:layoutBlockAtY(block, innerRows, yCursor)
+    if not editTaskRowVisible(block) then
+        return yCursor
+    end
+    editTaskSetRowY(block, yCursor)
+    local inner = 0
+    for _, row in ipairs(innerRows) do
+        if editTaskRowVisible(row) then
+            editTaskSetRowY(row, inner)
+            inner = inner - EDIT_TASK_ROW_H
+        end
+    end
+    return yCursor + inner
+end
+
+--- Repack form rows so hidden fields leave no empty gaps; place task-type hint under the last row.
+function EditTaskFrame:relayoutForm()
+    if self.formRoot == nil then
+        return
+    end
+    if self._standardRows == nil then
+        self._standardRows = {
+            self.standardDetailRow,
+            self.standardEffortRow,
+            self.standardPriorityRow,
+            self.standardRecurToggleRow,
+            self.recurModeRow,
+            self.recurNRow,
+            self.startPeriodRow,
+            self.periodRow
+        }
+        self._foodRows = { self.foodTypeRow, self.foodLevelRow }
+        self._conditionRows = { self.conditionTypeRow, self.conditionEvalRow, self.conditionLevelRow }
+        self._productionRows = {
+            self.productionPickRow,
+            self.productionIoRow,
+            self.productionFillRow,
+            self.productionEvalRow,
+            self.productionLevelRow
+        }
+    end
+
+    local sectionStart = 0
+    if editTaskRowVisible(self.taskTypeRow) then
+        editTaskSetRowY(self.taskTypeRow, 0)
+        sectionStart = -EDIT_TASK_ROW_H
+    end
+
+    local innerEndY = 0
+    local hasMainContent = false
+
+    if editTaskRowVisible(self.standardSection) then
+        self.standardSection:setPosition("0px", string.format("%dpx", sectionStart))
+        innerEndY = self:layoutRowStack(self._standardRows or {}, 0)
+        hasMainContent = innerEndY ~= 0
+    elseif editTaskRowVisible(self.linkedSection) then
+        self.linkedSection:setPosition("0px", string.format("%dpx", sectionStart))
+        local y2 = 0
+        if editTaskRowVisible(self.husbandryPickRow) then
+            editTaskSetRowY(self.husbandryPickRow, y2)
+            y2 = y2 - EDIT_TASK_ROW_H
+        end
+        if editTaskRowVisible(self.foodBlock) then
+            y2 = self:layoutBlockAtY(self.foodBlock, self._foodRows or {}, y2)
+        elseif editTaskRowVisible(self.conditionBlock) then
+            y2 = self:layoutBlockAtY(self.conditionBlock, self._conditionRows or {}, y2)
+        elseif editTaskRowVisible(self.productionBlock) then
+            y2 = self:layoutBlockAtY(self.productionBlock, self._productionRows or {}, y2)
+        end
+        innerEndY = y2
+        hasMainContent = innerEndY ~= 0 or editTaskRowVisible(self.husbandryPickRow)
+    end
+
+    if self.taskTypeDescriptionFooter ~= nil then
+        local showFooter = self:shouldShowTaskType()
+        self.taskTypeDescriptionFooter:setVisible(showFooter)
+        if showFooter then
+            self.taskTypeDescriptionFooter:setText(g_i18n:getText("ui_task_request_type_description"))
+            local footerY
+            if hasMainContent then
+                footerY = sectionStart + innerEndY + EDIT_TASK_ROW_H - EDIT_TASK_FOOTER_GAP - EDIT_TASK_FOOTER_H
+            else
+                footerY = -EDIT_TASK_FOOTER_GAP - EDIT_TASK_FOOTER_H
+            end
+            self.taskTypeDescriptionFooter:setPosition("20px", string.format("%dpx", footerY))
+        end
+    end
 end
 
 function EditTaskFrame:linkedObjectCounts()
@@ -492,7 +638,7 @@ function EditTaskFrame:updateVisibility()
     self.startPeriodRow:setVisible(needStart)
     self.periodRow:setVisible(needPeriod)
 
-    -- Keep XML-defined positions; runtime setPosition with pixel-like values can move rows out of viewport.
+    self:relayoutForm()
 end
 
 function EditTaskFrame:onOpen()

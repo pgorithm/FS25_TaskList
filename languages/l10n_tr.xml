@@ -25,11 +25,13 @@
 		<text name="ui_btn_add_task" text="Görev Ekle"/>
 		<text name="ui_btn_select_group" text="Grubu Değiştir"/>
 		<text name="ui_set_group_name" text="Bir Grup Adı Seçin"/>
-		<text name="ui_set_task_detail" text="Görevi Tanımlayın"/>
-		<text name="ui_set_task_priority" text="Görevin önceliğini belirleyin. Bu, hangi görevin önce yapılacağını bilmeniz için görevleri sıralamada kullanılır."/>
-		<text name="ui_set_task_should_recur" text="Görev tekrarlanıyor mu?"/>
-		<text name="ui_set_task_period" text="Görevin son tarihi ne zaman?"/>
-		<text name="ui_set_task_recur_mode" text="Görev ne zaman tekrarlanmalı?"/>
+		<text name="ui_field_task_type" text="Görev türü"/>
+		<text name="ui_field_production_evaluator" text="Tetikleyici"/>
+		<text name="ui_set_task_detail" text="Açıklama"/>
+		<text name="ui_set_task_priority" text="Öncelik"/>
+		<text name="ui_set_task_should_recur" text="Yineleme"/>
+		<text name="ui_set_task_period" text="Bitiş"/>
+		<text name="ui_set_task_recur_mode" text="Dönem"/>
 		<text name="ui_set_task_recur_mode_monthly" text="Belirli bir ayda"/>
 		<text name="ui_set_task_recur_mode_n_months" text="Her N ayda"/>
 		<text name="ui_set_task_recur_mode_n_days" text="Her N günde"/>
@@ -37,8 +39,8 @@
 		<text name="ui_task_due_monthly" text="Her %s ayında"/>
 		<text name="ui_task_due_n_months" text="Her %s ayda"/>
 		<text name="ui_task_due_n_days" text="Her %s günde"/>
-		<text name="ui_set_task_n_months" text="Görev kaç aylık sıklıkla tamamlanmalı?"/>
-		<text name="ui_set_task_n_days" text="Görev kaç günlük sıklıkla tamamlanmalı?"/>
+		<text name="ui_set_task_n_months" text="Ay"/>
+		<text name="ui_set_task_n_days" text="Gün"/>
 		<text name="ui_group_exists_error" text="Bu isimde bir grup zaten var"/>
 		<text name="ui_no_name_specified_error" text="Grup için bir isim belirtilmedi"/>
 		<text name="ui_no_detail_specified_error" text="Görev ayrıntısı belirtilmedi"/>
@@ -57,7 +59,7 @@
 		<text name="ui_confirm_complete_task" text="Görevin tamamlanmasını onaylayın: %s"/>
 		<text name="ui_tasks_over_time" text="Zaman içinde iş yükü"/>
 		<text name="ui_header_effort" text="efor"/>
-		<text name="ui_set_task_effort" text="Bu görev için efor seviyesini ayarlayın. Bu, zaman içindeki iş yükünü hesaplarken küçük ve büyük görevleri ayırt etmek için kullanılır."/>
+		<text name="ui_set_task_effort" text="Efor"/>
 		<text name="ui_tasks_due_now" text="Şu Anda Geciken Görevler"/>
 		<text name="ui_intro_text_1" text="Başlamak için, Grup Yöneticisi'ni kullanarak bir grup oluşturun. Standart grup, 'Tarla 10' veya 'Genel Çiftlik Görevleri' gibi ilişkili görevler için mantıksal bir kapsayıcıdır."/>
 		<text name="ui_intro_text_2" text="Bir grup oluşturduktan sonra, Yapılacaklar Yöneticisi'ni kullanarak yapmanız gerekenleri ve ne zaman yapacağınızı tanımlayın. Görevler, zamanı geldiğinde burada aktif görevler olarak gösterilecektir."/>
@@ -79,10 +81,10 @@
 		<text name="ui_confirm_deletion_template" text="Silmek istediğinizden emin misiniz? Bir Şablonu silmek, ona bağlı tüm Şablon Örneği gruplarını da silecektir."/>
 		<text name="ui_set_task_effort_multiplier" text="Bu grup için efor değerlerini çarpın. Şablonun değerlerini kullanmak için 1'i kullanın veya örneğin grup büyük bir tarlayı temsil ediyorsa daha yükseğe ayarlayın."/>
 		<text name="ui_task_request_type_description" text="Bir görev türü seçin. Standart serbest metindir. Hayvancılık, yiyecek miktarını takip edebilir ve yiyecek seviyeleri düştüğünde görev oluşturur."/>
-		<text name="ui_task_request_husbandry" text="Bu görev için hayvancılığı seçin."/>
-		<text name="ui_task_request_food_type" text="İzlenecek yiyecek türünü seçin."/>
+		<text name="ui_task_request_husbandry" text="Hayvancılık"/>
+		<text name="ui_task_request_food_type" text="Yem türü"/>
 		<text name="ui_task_level_empty" text="Boş"/>
-		<text name="ui_task_request_food_level" text="İzlenecek yiyecek seviyesini seçin. Seviye hedefin altına düştüğünde yeni yiyecek eklemek için bir görev eklenecektir."/>
+		<text name="ui_task_request_food_level" text="Yem seviyesi"/>
 		<text name="ui_task_food_fill" text="doldur"/>
 		<text name="ui_husbandry_food_total" text="Toplam"/>
 		<text name="ui_task_food_fill_total" text="Yiyecek Doldur"/>
@@ -90,18 +92,18 @@
 		<text name="ui_task_evaluator_greater_than" text="yüksek"/>
 		<text name="ui_task_evaluator_less_than" text="düşük"/>
 		<text name="ui_type_husbandry_conditions" text="Hayvancılık Koşulları"/>
-		<text name="ui_task_request_condition_type" text="Takip edilecek koşulu seçin."/>
-		<text name="ui_task_request_condition_evaluator" text="Görevin ne zaman teslim tarihi gelmeli seçin. Görevi hedef değerin altına düştüğünde veya üzerine çıktığında oluşturabilirsiniz."/>
+		<text name="ui_task_request_condition_type" text="Koşul"/>
+		<text name="ui_task_request_condition_evaluator" text="Tetikleyici"/>
 		<text name="ui_task_condition_evaluator_less_than" text="Hedefin Altında"/>
 		<text name="ui_task_condition_evaluator_greater_than" text="Hedefin Üstünde"/>
-		<text name="ui_task_request_condition_level" text="Koşul için takip edilecek hedef seviyeyi seçin."/>
+		<text name="ui_task_request_condition_level" text="Hedef seviye"/>
 		<text name="ui_type_production" text="Üretim"/>
-		<text name="ui_task_request_production" text="Bu görev için üretimi seçin."/>
-		<text name="ui_task_request_production_type" text="Bir üretim girdisi mi yoksa çıktısı mı takip edilecek seçin."/>
-		<text name="ui_task_request_production_fill_type" text="Takip edilecek dolum türünü seçin."/>
-		<text name="ui_task_request_production_level" text="Dolum türü için takip edilecek hedef seviyeyi seçin."/>
+		<text name="ui_task_request_production" text="Üretim"/>
+		<text name="ui_task_request_production_type" text="Girdi / çıktı"/>
+		<text name="ui_task_request_production_fill_type" text="Dolum türü"/>
+		<text name="ui_task_request_production_level" text="Hedef seviye"/>
 		<text name="ui_task_production_input" text="Girdi"/>
 		<text name="ui_task_production_output" text="Çıktı"/>
-		<text name="ui_set_task_start_period" text="Görevin teslim tarihi gelmesi gereken ilk ayı belirleyin."/>
+		<text name="ui_set_task_start_period" text="İlk ay"/>
 	</texts>
 </l10n>

@@ -25,11 +25,13 @@
 		<text name="ui_btn_add_task" text="Neu"/>
 		<text name="ui_btn_select_group" text="Gruppe ändern"/>
 		<text name="ui_set_group_name" text="Wähle einen Gruppennamen"/>
-		<text name="ui_set_task_detail" text="Beschreibe die Aufgabe"/>
-		<text name="ui_set_task_priority" text="Lege die Priorität der Aufgabe fest. Dies dient der Reihenfolge der Aufgabenbearbeitung."/>
-		<text name="ui_set_task_should_recur" text="Ist die Aufgabe wiederkehrend?"/>
-		<text name="ui_set_task_period" text="Wann ist die Aufgabe fällig?"/>
-		<text name="ui_set_task_recur_mode" text="Wann soll die Aufgabe wiederkehren?"/>
+		<text name="ui_field_task_type" text="Aufgabentyp"/>
+		<text name="ui_field_production_evaluator" text="Auslöser"/>
+		<text name="ui_set_task_detail" text="Beschreibung"/>
+		<text name="ui_set_task_priority" text="Priorität"/>
+		<text name="ui_set_task_should_recur" text="Wiederholung"/>
+		<text name="ui_set_task_period" text="Fällig"/>
+		<text name="ui_set_task_recur_mode" text="Intervall"/>
 		<text name="ui_set_task_recur_mode_monthly" text="In einem bestimmten Monat"/>
 		<text name="ui_set_task_recur_mode_n_months" text="Alle N Monate"/>
 		<text name="ui_set_task_recur_mode_n_days" text="Alle N Tage"/>
@@ -37,8 +39,8 @@
 		<text name="ui_task_due_monthly" text="Jeden %s"/>
 		<text name="ui_task_due_n_months" text="Alle %s Monate"/>
 		<text name="ui_task_due_n_days" text="Alle %s Tage"/>
-		<text name="ui_set_task_n_months" text="Wie oft in Monaten soll die Aufgabe erledigt werden?"/>
-		<text name="ui_set_task_n_days" text="Wie oft in Tagen soll die Aufgabe erledigt werden?"/>
+		<text name="ui_set_task_n_months" text="Monate"/>
+		<text name="ui_set_task_n_days" text="Tage"/>
 		<text name="ui_group_exists_error" text="Eine Gruppe mit diesem Namen existiert bereits"/>
 		<text name="ui_no_name_specified_error" text="Es wurde kein Gruppenname angegeben"/>
 		<text name="ui_no_detail_specified_error" text="Es wurde keine Aufgabenbeschreibung angegeben"/>
@@ -57,7 +59,7 @@
 		<text name="ui_confirm_complete_task" text="Abschluss der Aufgabe bestätigen: %s"/>
 		<text name="ui_tasks_over_time" text="Arbeitsbelastung über die Zeit"/>
 		<text name="ui_header_effort" text="Aufwand"/>
-		<text name="ui_set_task_effort" text="Setze den Aufwand für diese Aufgabe. Dies hilft bei der Unterscheidung von kleinen und großen Aufgaben."/>
+		<text name="ui_set_task_effort" text="Aufwand"/>
 		<text name="ui_tasks_due_now" text="Jetzt fällige Aufgaben"/>
 		<text name="ui_intro_text_1" text="Um loszulegen, verwende 'Gruppen verwalten', um eine Gruppe zu erstellen. Eine Standardgruppe ist ein logischer Container für zusammengehörige Aufgaben, z. B. 'Feld 10' oder 'Allgemeine Hofaufgaben'."/>
 		<text name="ui_intro_text_2" text="Sobald du eine Gruppe erstellt hast, verwende 'Aufgaben verwalten', um Aufgaben und ihre Fälligkeit festzulegen. Fällige Aufgaben erscheinen als aktive Aufgaben."/>
@@ -79,10 +81,10 @@
 		<text name="ui_confirm_deletion_template" text="Möchtest du wirklich löschen? Beim Löschen einer Vorlage werden auch alle zugehörigen Instanzgruppen gelöscht."/>
 		<text name="ui_set_task_effort_multiplier" text="Multipliziere die Aufwandswerte für diese Gruppe. Nutze 1 für Standardwerte oder mehr für größere Gruppen z. B. große Felder."/>
 		<text name="ui_task_request_type_description" text="Wähle einen Aufgabentyp. 'Standard' ist Freitext. 'Tierhaltung' kann Futterstände überwachen und Aufgaben auslösen."/>
-		<text name="ui_task_request_husbandry" text="Wähle die Tierhaltung für diese Aufgabe."/>
-		<text name="ui_task_request_food_type" text="Wähle den zu überwachenden Futtertyp."/>
+		<text name="ui_task_request_husbandry" text="Tierhaltung"/>
+		<text name="ui_task_request_food_type" text="Futtertyp"/>
 		<text name="ui_task_level_empty" text="Leer"/>
-		<text name="ui_task_request_food_level" text="Wähle den Ziel-Futterstand. Wenn der Stand darunter fällt, wird eine Aufgabe zum Auffüllen erstellt."/>
+		<text name="ui_task_request_food_level" text="Futterstand"/>
 		<text name="ui_task_food_fill" text="auffüllen"/>
 		<text name="ui_husbandry_food_total" text="Gesamt"/>
 		<text name="ui_task_food_fill_total" text="Futter auffüllen"/>
@@ -90,18 +92,18 @@
 		<text name="ui_task_evaluator_greater_than" text="hoch"/>
 		<text name="ui_task_evaluator_less_than" text="niedrig"/>
 		<text name="ui_type_husbandry_conditions" text="Tierhaltungsbedingungen"/>
-		<text name="ui_task_request_condition_type" text="Wähle die zu überwachende Bedingung."/>
-		<text name="ui_task_request_condition_evaluator" text="Wähle, wann die Aufgabe fällig wird. Entweder unter oder über dem Zielwert."/>
+		<text name="ui_task_request_condition_type" text="Bedingung"/>
+		<text name="ui_task_request_condition_evaluator" text="Auslöser"/>
 		<text name="ui_task_condition_evaluator_less_than" text="Unter dem Zielwert"/>
 		<text name="ui_task_condition_evaluator_greater_than" text="Über dem Zielwert"/>
-		<text name="ui_task_request_condition_level" text="Wähle den Zielwert für die Bedingung."/>
+		<text name="ui_task_request_condition_level" text="Zielwert"/>
 		<text name="ui_type_production" text="Produktion"/>
-		<text name="ui_task_request_production" text="Wähle die Produktion für diese Aufgabe."/>
-		<text name="ui_task_request_production_type" text="Wähle, ob ein Eingangs- oder Ausgangswert überwacht werden soll."/>
-		<text name="ui_task_request_production_fill_type" text="Wähle den Fülltyp zur Überwachung."/>
-		<text name="ui_task_request_production_level" text="Wähle den Zielwert für den Fülltyp."/>
+		<text name="ui_task_request_production" text="Produktion"/>
+		<text name="ui_task_request_production_type" text="Eingang / Ausgang"/>
+		<text name="ui_task_request_production_fill_type" text="Fülltyp"/>
+		<text name="ui_task_request_production_level" text="Zielwert"/>
 		<text name="ui_task_production_input" text="Eingang"/>
 		<text name="ui_task_production_output" text="Ausgang"/>
-		<text name="ui_set_task_start_period" text="Lege den ersten Monat fest, in dem die Aufgabe fällig wird."/>
+		<text name="ui_set_task_start_period" text="Erster Monat"/>
 	</texts>
 </l10n>

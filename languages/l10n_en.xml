@@ -25,11 +25,13 @@
 		<text name="ui_btn_add_task" text="Add Task"/>
 		<text name="ui_btn_select_group" text="Change group"/>
 		<text name="ui_set_group_name" text="Choose A Group Name"/>
-		<text name="ui_set_task_detail" text="Describe the task"/>
-		<text name="ui_set_task_priority" text="Set the task priority. This is used for ordering tasks so you know what to do first."/>
-		<text name="ui_set_task_should_recur" text="Is the task recurring?"/>
-		<text name="ui_set_task_period" text="When is the task due?"/>
-		<text name="ui_set_task_recur_mode" text="When should the task recur?"/>
+		<text name="ui_field_task_type" text="Task Type"/>
+		<text name="ui_field_production_evaluator" text="Trigger"/>
+		<text name="ui_set_task_detail" text="Description"/>
+		<text name="ui_set_task_priority" text="Priority"/>
+		<text name="ui_set_task_should_recur" text="Recurrence"/>
+		<text name="ui_set_task_period" text="Due"/>
+		<text name="ui_set_task_recur_mode" text="Period"/>
 		<text name="ui_set_task_recur_mode_monthly" text="On a specific month"/>
 		<text name="ui_set_task_recur_mode_n_months" text="Every N months"/>
 		<text name="ui_set_task_recur_mode_n_days" text="Every N days"/>
@@ -37,8 +39,8 @@
 		<text name="ui_task_due_monthly" text="Every %s"/>
 		<text name="ui_task_due_n_months" text="Every %s months"/>
 		<text name="ui_task_due_n_days" text="Every %s days"/>
-		<text name="ui_set_task_n_months" text="How frequent in months should the task be completed?"/>
-		<text name="ui_set_task_n_days" text="How frequent in days should the task be completed?"/>
+		<text name="ui_set_task_n_months" text="Months"/>
+		<text name="ui_set_task_n_days" text="Days"/>
 		<text name="ui_group_exists_error" text="A group with this name already exists"/>
 		<text name="ui_no_name_specified_error" text="No name for the group was specified"/>
 		<text name="ui_no_detail_specified_error" text="No task detail was specified"/>
@@ -57,7 +59,7 @@
 		<text name="ui_confirm_complete_task" text="Confirm completion of task: %s"/>
 		<text name="ui_tasks_over_time" text="Workload over time"/>
 		<text name="ui_header_effort" text="Effort"/>
-		<text name="ui_set_task_effort" text="Set the effort level for this task. This is used to differentiate small and large tasks when calculating workload over time."/>
+		<text name="ui_set_task_effort" text="Effort"/>
 		<text name="ui_tasks_due_now" text="Tasks Due Now"/>
 		<text name="ui_intro_text_1" text="To get started, use Manage Groups to create a Group. A Standard group is a logical container for related tasks, for example 'Field 10', or 'General Farm Tasks'."/>
 		<text name="ui_intro_text_2" text="Once you have made a group, use Manage Tasks to define things you need to do and when. Tasks will show in here as active tasks when due."/>
@@ -79,10 +81,10 @@
 		<text name="ui_confirm_deletion_template" text="Are you sure you want to delete? Deleting a Template will delete all Template Instance groups associated with it."/>
 		<text name="ui_set_task_effort_multiplier" text="Multiply the effort values for this group. Use 1 to use the values of the template, or set it higher if for example the group represents a large field."/>
 		<text name="ui_task_request_type_description" text="Choose a task type. Standard is free text. Husbandry can track food inputs and raises tasks if food types get low."/>
-		<text name="ui_task_request_husbandry" text="Select the husbandry for this task."/>
-		<text name="ui_task_request_food_type" text="Select the food type to track."/>
+		<text name="ui_task_request_husbandry" text="Husbandry"/>
+		<text name="ui_task_request_food_type" text="Food type"/>
 		<text name="ui_task_level_empty" text="Empty"/>
-		<text name="ui_task_request_food_level" text="Select the food level to track. When the level drops below the target, a task will be added to fill add more food."/>
+		<text name="ui_task_request_food_level" text="Food level"/>
 		<text name="ui_task_food_fill" text="fill"/>
 		<text name="ui_husbandry_food_total" text="Total"/>
 		<text name="ui_task_food_fill_total" text="fill Food"/>
@@ -90,18 +92,18 @@
 		<text name="ui_task_evaluator_greater_than" text="high"/>
 		<text name="ui_task_evaluator_less_than" text="low"/>
 		<text name="ui_type_husbandry_conditions" text="Husbandry Conditions"/>
-		<text name="ui_task_request_condition_type" text="Choose the condition to track."/>
-		<text name="ui_task_request_condition_evaluator" text="Choose when the task should become due. You can raise the task when it drops below the target value, or when it goes above it."/>
+		<text name="ui_task_request_condition_type" text="Condition"/>
+		<text name="ui_task_request_condition_evaluator" text="Trigger"/>
 		<text name="ui_task_condition_evaluator_less_than" text="Below target"/>
 		<text name="ui_task_condition_evaluator_greater_than" text="Above target"/>
-		<text name="ui_task_request_condition_level" text="Choose the target level to track for the condition."/>
+		<text name="ui_task_request_condition_level" text="Target level"/>
 		<text name="ui_type_production" text="Production"/>
-		<text name="ui_task_request_production" text="Choose the production for this task."/>
-		<text name="ui_task_request_production_type" text="Choose whether to track a production input or output."/>
-		<text name="ui_task_request_production_fill_type" text="Choose the fill type to track.."/>
-		<text name="ui_task_request_production_level" text="Choose the target level to track for the fill type."/>
+		<text name="ui_task_request_production" text="Production"/>
+		<text name="ui_task_request_production_type" text="Input / output"/>
+		<text name="ui_task_request_production_fill_type" text="Fill type"/>
+		<text name="ui_task_request_production_level" text="Target level"/>
 		<text name="ui_task_production_input" text="Input"/>
 		<text name="ui_task_production_output" text="Output"/>
-		<text name="ui_set_task_start_period" text="Set the first month for the task to be due."/>
+		<text name="ui_set_task_start_period" text="Start month"/>
 	</texts>
 </l10n>

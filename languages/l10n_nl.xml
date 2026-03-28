@@ -25,11 +25,13 @@
 		<text name="ui_btn_add_task" text="Taak toevoegen"/>
 		<text name="ui_btn_select_group" text="Groep wijzigen"/>
 		<text name="ui_set_group_name" text="Groepsnaam instellen"/>
-		<text name="ui_set_task_detail" text="Taak beschrijven"/>
-		<text name="ui_set_task_priority" text="Taak prioriteren. Dit wordt gebruikt om de taken te ordenen"/>
-		<text name="ui_set_task_should_recur" text="Moet de taak herhaald worden?"/>
-		<text name="ui_set_task_period" text="Wanneer moet de taak voltooid zijn?"/>
-		<text name="ui_set_task_recur_mode" text="Wanneer moet de taak herhaald worden?"/>
+		<text name="ui_field_task_type" text="Taaktype"/>
+		<text name="ui_field_production_evaluator" text="Trigger"/>
+		<text name="ui_set_task_detail" text="Beschrijving"/>
+		<text name="ui_set_task_priority" text="Prioriteit"/>
+		<text name="ui_set_task_should_recur" text="Herhaling"/>
+		<text name="ui_set_task_period" text="Vervaldatum"/>
+		<text name="ui_set_task_recur_mode" text="Periode"/>
 		<text name="ui_set_task_recur_mode_monthly" text="Op een specifieke maand"/>
 		<text name="ui_set_task_recur_mode_n_months" text="Elke %s maanden"/>
 		<text name="ui_set_task_recur_mode_n_days" text="Elke %s dagen"/>
@@ -37,8 +39,8 @@
 		<text name="ui_task_due_monthly" text="Elke %s"/>
 		<text name="ui_task_due_n_months" text="Elke %s maanden"/>
 		<text name="ui_task_due_n_days" text="Elke %s dagen"/>
-		<text name="ui_set_task_n_months" text="Hoe vaak per maand moet de taak worden uitgevoerd?"/>
-		<text name="ui_set_task_n_days" text="Hoe vaak per dag moet de taak worden uitgevoerd?"/>
+		<text name="ui_set_task_n_months" text="Maanden"/>
+		<text name="ui_set_task_n_days" text="Dagen"/>
 		<text name="ui_group_exists_error" text="Er bestaat al een groep met deze naam"/>
 		<text name="ui_no_name_specified_error" text="Er is geen groepsnaam opgegeven"/>
 		<text name="ui_no_detail_specified_error" text="Er is geen taakbeschrijving opgegeven"/>
@@ -57,7 +59,7 @@
 		<text name="ui_confirm_complete_task" text="Bevestig het voltooien van de taak: %s"/>
 		<text name="ui_tasks_over_time" text="Werkbelasting over tijd"/>
 		<text name="ui_header_effort" text="Inspanning"/>
-		<text name="ui_set_task_effort" text="Stel de inspanning voor deze taak in. Dit wordt gebruikt om taken op belangrijkheid te sorteren"/>
+		<text name="ui_set_task_effort" text="Inspanning"/>
 		<text name="ui_tasks_due_now" text="Taken die nu moeten worden voltooid"/>
 		<text name="ui_intro_text_1" text="Begin met het beheren van groepen om een groep aan te maken. Een standaardgroep is een logische container voor gerelateerde taken, zoals 'veld 10' of 'Algemene boerderijtaken'"/>
 		<text name="ui_intro_text_2" text="Zodra je een groep hebt aangemaakt, kun je taken definiëren en wanneer ze moeten worden uitgevoerd. Taken verschijnen hier als actieve taken wanneer ze aan de beurt zijn"/>
@@ -79,10 +81,10 @@
 		<text name="ui_confirm_deletion_template" text="Weet je zeker dat je het sjabloon wilt verwijderen? Verwijderen van een sjabloon verwijdert alle gekoppelde sjablooninstantie"/>
 		<text name="ui_set_task_effort_multiplier" text="Vermenigvuldig de inspanningswaarden voor deze groep. Gebruik 1 om de waarden van het sjabloon te behouden, of stel een hoger getal in voor bijvoorbeeld een groot veld"/>
 		<text name="ui_task_request_type_description" text="Kies een taaktype. Standaard is vrije tekst. 'Veeteelt' kan voedselniveaus volgen en herhaalde taken genereren als het niveau onder de doelwaarde komt"/>
-		<text name="ui_task_request_husbandry" text="Kies de veeteelt voor deze taak"/>
-		<text name="ui_task_request_food_type" text="Kies het voedsel om te volgen"/>
+		<text name="ui_task_request_husbandry" text="Veeteelt"/>
+		<text name="ui_task_request_food_type" text="Voedseltype"/>
 		<text name="ui_task_level_empty" text="Leeg"/>
-		<text name="ui_task_request_food_level" text="Kies het voedselniveau om te volgen. Als het onder het doel valt, wordt een taak aangemaakt om aan te vullen"/>
+		<text name="ui_task_request_food_level" text="Voedselniveau"/>
 		<text name="ui_task_food_fill" text="aanvullen"/>
 		<text name="ui_husbandry_food_total" text="Totaal"/>
 		<text name="ui_task_food_fill_total" text="voedsel aanvullen"/>
@@ -90,18 +92,18 @@
 		<text name="ui_task_evaluator_greater_than" text="hoog"/>
 		<text name="ui_task_evaluator_less_than" text="laag"/>
 		<text name="ui_type_husbandry_conditions" text="Huisvestingscondities"/>
-		<text name="ui_task_request_condition_type" text="Kies de conditie die gevolgd moet worden."/>
-		<text name="ui_task_request_condition_evaluator" text="Kies wanneer de taak actief moet zijn. Je kunt de taak activeren als de waarde onder of boven het doel komt."/>
+		<text name="ui_task_request_condition_type" text="Conditie"/>
+		<text name="ui_task_request_condition_evaluator" text="Trigger"/>
 		<text name="ui_task_condition_evaluator_less_than" text="Onder het doel"/>
 		<text name="ui_task_condition_evaluator_greater_than" text="Boven het doel"/>
-		<text name="ui_task_request_condition_level" text="Kies het doelniveau dat voor de conditie gevolgd moet worden."/>
+		<text name="ui_task_request_condition_level" text="Doelniveau"/>
 		<text name="ui_type_production" text="Productie"/>
-		<text name="ui_task_request_production" text="Kies de productie voor deze taak."/>
-		<text name="ui_task_request_production_type" text="Kies of je een input of output van de productie wilt volgen."/>
-		<text name="ui_task_request_production_fill_type" text="Kies het vultype dat je wilt volgen."/>
-		<text name="ui_task_request_production_level" text="Kies het doel dat je voor dit vultype wilt volgen."/>
+		<text name="ui_task_request_production" text="Productie"/>
+		<text name="ui_task_request_production_type" text="Invoer / uitvoer"/>
+		<text name="ui_task_request_production_fill_type" text="Vultype"/>
+		<text name="ui_task_request_production_level" text="Doelniveau"/>
 		<text name="ui_task_production_input" text="Invoer"/>
 		<text name="ui_task_production_output" text="Uitvoer"/>
-		<text name="ui_set_task_start_period" text="Stel de eerste maand in waarin de taak moet vervallen."/>
+		<text name="ui_set_task_start_period" text="Eerste maand"/>
 	</texts>
 </l10n>
