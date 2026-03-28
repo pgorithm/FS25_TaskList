@@ -1,5 +1,28 @@
 EditTaskFrame = {}
 EditTaskFrame._params = nil
+
+local function trimWhitespace(str)
+    return string.gsub(str or "", '^%s*(.-)%s*$', '%1')
+end
+
+--- Match TextInputElement / savegame limits (UTF-8 aware when engine helpers exist).
+local function limitTaskDetailLength(str, maxLen)
+    str = trimWhitespace(str)
+    if str == "" then
+        return ""
+    end
+    if type(utf8Strlen) == "function" and type(utf8Substr) == "function" then
+        if utf8Strlen(str) > maxLen then
+            return utf8Substr(str, 0, maxLen)
+        end
+        return str
+    end
+    if string.len(str) > maxLen then
+        return string.sub(str, 1, maxLen)
+    end
+    return str
+end
+
 local EditTaskFrame_mt = Class(EditTaskFrame, MessageDialog)
 
 function EditTaskFrame.new(target, custom_mt)
@@ -373,9 +396,7 @@ function EditTaskFrame:populateRecurNOption()
 end
 
 function EditTaskFrame:syncStandardWidgetsFromTask()
-    if self.taskDetailInput ~= nil and self.taskDetailInput.setText ~= nil then
-        self.taskDetailInput:setText(self.task.detail or "")
-    end
+    self:setTaskDetailInputText(self.task.detail or "")
 
     local effortTexts = { "1", "2", "3", "4", "5" }
     self.effortOption:setTexts(effortTexts)
@@ -503,9 +524,15 @@ function EditTaskFrame:onClose()
 end
 
 function EditTaskFrame:onTaskTypeChange(index)
+    if self.task.type == Task.TASK_TYPE.Standard then
+        self:readDetailFromUi()
+    end
     self.task.type = self._taskTypeOrder[index] or Task.TASK_TYPE.Standard
     self:populateLinkedForCurrentType()
     self:updateVisibility()
+    if self.task.type == Task.TASK_TYPE.Standard then
+        self:syncStandardWidgetsFromTask()
+    end
 end
 
 function EditTaskFrame:onEffortChange(index) end
@@ -570,19 +597,24 @@ end
 function EditTaskFrame:onProductionEvalChange(index) end
 function EditTaskFrame:onProductionLevelChange(index) end
 
+function EditTaskFrame:getTaskDetailInputText()
+    if self.taskDetailInput == nil then
+        return ""
+    end
+    if self.taskDetailInput.getText ~= nil then
+        return self.taskDetailInput:getText() or ""
+    end
+    return self.taskDetailInput.text or ""
+end
+
+function EditTaskFrame:setTaskDetailInputText(text)
+    if self.taskDetailInput ~= nil and self.taskDetailInput.setText ~= nil then
+        self.taskDetailInput:setText(text or "")
+    end
+end
+
 function EditTaskFrame:readDetailFromUi()
-    local detail = ""
-    if self.taskDetailInput ~= nil then
-        if self.taskDetailInput.getText ~= nil then
-            detail = self.taskDetailInput:getText() or ""
-        elseif self.taskDetailInput.text ~= nil then
-            detail = self.taskDetailInput.text or ""
-        end
-    end
-    self.task.detail = string.gsub(detail, '^%s*(.-)%s*$', '%1')
-    if string.len(self.task.detail) > Task.MAX_DETAIL_LENGTH then
-        self.task.detail = string.sub(self.task.detail, 1, Task.MAX_DETAIL_LENGTH)
-    end
+    self.task.detail = limitTaskDetailLength(self:getTaskDetailInputText(), Task.MAX_DETAIL_LENGTH)
 end
 
 function EditTaskFrame:readStandardFromUi()

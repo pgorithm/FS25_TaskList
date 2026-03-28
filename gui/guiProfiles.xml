@@ -58,4 +58,18 @@
     <Profile name="taskListpricesMonthText" extends="fs25_pricesMonthText">
         <width value="122px" />
     </Profile>
+    <Profile name="editTaskFormRoot" extends="emptyPanel" with="anchorTopLeft pivotTopLeft" />
+    <Profile name="editTaskSection" extends="emptyPanel" with="anchorTopLeft pivotTopLeft" />
+    <Profile name="editTaskFormRow" extends="emptyPanel" with="anchorTopStretchingX pivotTopLeft">
+        <height value="52px" />
+    </Profile>
+    <Profile name="editTaskFieldLabel" extends="baseReference" with="anchorTopLeft pivotTopLeft">
+        <imageColor value="0 0 0 0" />
+        <textSize value="16px" />
+        <textColor value="$preset_colorWhite_50" />
+        <textAlignment value="left" />
+        <textLayoutMode value="scrolling" />
+    </Profile>
+    <Profile name="editTaskMultiOption" extends="fs25_subCategorySelectorTabbed" with="anchorTopLeft pivotTopLeft" />
+    <Profile name="editTaskTextInput" extends="fs25_textInput" with="anchorTopLeft pivotTopLeft" />
 </GUIProfiles>
