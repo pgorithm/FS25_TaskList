@@ -42,6 +42,9 @@
 		<text name="ui_group_exists_error" text="Eine Gruppe mit diesem Namen existiert bereits"/>
 		<text name="ui_no_name_specified_error" text="Es wurde kein Gruppenname angegeben"/>
 		<text name="ui_no_detail_specified_error" text="Es wurde keine Aufgabenbeschreibung angegeben"/>
+		<text name="ui_task_form_incomplete" text="Bitte füllen Sie alle Felder für diesen Aufgabentyp aus."/>
+		<text name="ui_edit_task" text="Aufgabe bearbeiten"/>
+		<text name="ui_add_task" text="Neue Aufgabe"/>
 		<text name="ui_no_group_selected_error" text="Keine Gruppe zum Kopieren ausgewählt"/>
 		<text name="ui_no_task_selected" text="Keine Aufgabe ausgewählt"/>
 		<text name="ui_no_group_selected" text="Keine Gruppe ausgewählt"/>

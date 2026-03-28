@@ -42,6 +42,9 @@
 		<text name="ui_group_exists_error" text="Ya existe un grupo con este nombre"/>
 		<text name="ui_no_name_specified_error" text="No se ha proporcionado un nombre para el grupo"/>
 		<text name="ui_no_detail_specified_error" text="No se ha proporcionado una descripción para la tarea"/>
+		<text name="ui_task_form_incomplete" text="Complete todos los campos para este tipo de tarea."/>
+		<text name="ui_edit_task" text="Editar tarea"/>
+		<text name="ui_add_task" text="Nueva tarea"/>
 		<text name="ui_no_group_selected_error" text="No se ha seleccionado un grupo para copiar"/>
 		<text name="ui_no_task_selected" text="No se ha seleccionado una tarea"/>
 		<text name="ui_no_group_selected" text="No se ha seleccionado un grupo"/>

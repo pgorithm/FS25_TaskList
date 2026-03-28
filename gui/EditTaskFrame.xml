@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+    <GuiElement profile="dialogBg" id="dialogElement" size="920px 820px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+        <GuiElement profile="fs25_dialogContentContainer">
+            <Animation profile="fs25_dialogLoading" id="iconLoadingElement" />
+            <Text profile="dialogTitle" id="titleText" text="$l10n_ui_edit_task" position="0px -28px" />
+
+            <GuiElement id="formRoot" position="0px -62px" size="880px 620px">
+                <GuiElement id="taskTypeRow" position="0px 0px">
+                    <Text profile="taskListIntroText" id="taskTypeHint" text="$l10n_ui_task_request_type_description" position="-380px 6px" size="360px 36px" />
+                    <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="taskTypeOption" position="40px 0px" size="480px 44px" onClick="onTaskTypeChange">
+                        <Text profile="fs25_multiTextOptionText" name="text" />
+                    </MultiTextOption>
+                </GuiElement>
+
+                <GuiElement id="standardSection" position="0px 52px">
+                    <Text profile="taskListIntroText" text="$l10n_ui_set_task_detail" position="-380px 0px" size="360px 22px" />
+                    <TextInput profile="fs25_textInput" id="taskDetailInput" position="40px 0px" size="480px 40px" />
+
+                    <Text profile="taskListIntroText" text="$l10n_ui_set_task_effort" position="-380px 46px" size="360px 22px" />
+                    <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="effortOption" position="40px 46px" size="480px 44px" onClick="onEffortChange">
+                        <Text profile="fs25_multiTextOptionText" name="text" />
+                    </MultiTextOption>
+
+                    <Text profile="taskListIntroText" text="$l10n_ui_set_task_priority" position="-380px 92px" size="360px 22px" />
+                    <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="priorityOption" position="40px 92px" size="480px 44px" onClick="onPriorityChange">
+                        <Text profile="fs25_multiTextOptionText" name="text" />
+                    </MultiTextOption>
+
+                    <Text profile="taskListIntroText" text="$l10n_ui_set_task_should_recur" position="-380px 138px" size="360px 22px" />
+                    <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="shouldRecurOption" position="40px 138px" size="480px 44px" onClick="onShouldRecurChange">
+                        <Text profile="fs25_multiTextOptionText" name="text" />
+                    </MultiTextOption>
+
+                    <Text profile="taskListIntroText" text="$l10n_ui_set_task_recur_mode" position="-380px 184px" size="360px 22px" />
+                    <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="recurModeOption" position="40px 184px" size="480px 44px" onClick="onRecurModeChange">
+                        <Text profile="fs25_multiTextOptionText" name="text" />
+                    </MultiTextOption>
+
+                    <Text profile="taskListIntroText" id="recurNLabel" text="$l10n_ui_set_task_n_months" position="-380px 230px" size="360px 22px" />
+                    <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="recurNOption" position="40px 230px" size="480px 44px" onClick="onRecurNChange">
+                        <Text profile="fs25_multiTextOptionText" name="text" />
+                    </MultiTextOption>
+
+                    <Text profile="taskListIntroText" text="$l10n_ui_set_task_start_period" position="-380px 276px" size="360px 22px" />
+                    <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="startPeriodOption" position="40px 276px" size="480px 44px" onClick="onStartPeriodChange">
+                        <Text profile="fs25_multiTextOptionText" name="text" />
+                    </MultiTextOption>
+
+                    <Text profile="taskListIntroText" text="$l10n_ui_set_task_period" position="-380px 322px" size="360px 22px" />
+                    <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="periodOption" position="40px 322px" size="480px 44px" onClick="onPeriodChange">
+                        <Text profile="fs25_multiTextOptionText" name="text" />
+                    </MultiTextOption>
+                </GuiElement>
+
+                <GuiElement id="linkedSection" position="0px 52px">
+                    <GuiElement id="husbandryPickRow" position="0px 0px">
+                        <Text profile="taskListIntroText" text="$l10n_ui_task_request_husbandry" position="-380px 0px" size="360px 22px" />
+                        <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="husbandryOption" position="40px 0px" size="480px 44px" onClick="onHusbandryChange">
+                            <Text profile="fs25_multiTextOptionText" name="text" />
+                        </MultiTextOption>
+                    </GuiElement>
+
+                    <GuiElement id="foodBlock" position="0px 46px">
+                        <Text profile="taskListIntroText" text="$l10n_ui_task_request_food_type" position="-380px 0px" size="360px 22px" />
+                        <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="foodTypeOption" position="40px 0px" size="480px 44px" onClick="onFoodTypeChange">
+                            <Text profile="fs25_multiTextOptionText" name="text" />
+                        </MultiTextOption>
+                        <Text profile="taskListIntroText" text="$l10n_ui_task_request_food_level" position="-380px 46px" size="360px 22px" />
+                        <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="foodLevelOption" position="40px 46px" size="480px 44px" onClick="onFoodLevelChange">
+                            <Text profile="fs25_multiTextOptionText" name="text" />
+                        </MultiTextOption>
+                    </GuiElement>
+
+                    <GuiElement id="conditionBlock" position="0px 46px">
+                        <Text profile="taskListIntroText" text="$l10n_ui_task_request_condition_type" position="-380px 0px" size="360px 22px" />
+                        <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="conditionTypeOption" position="40px 0px" size="480px 44px" onClick="onConditionTypeChange">
+                            <Text profile="fs25_multiTextOptionText" name="text" />
+                        </MultiTextOption>
+                        <Text profile="taskListIntroText" text="$l10n_ui_task_request_condition_evaluator" position="-380px 46px" size="360px 22px" />
+                        <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="conditionEvalOption" position="40px 46px" size="480px 44px" onClick="onConditionEvalChange">
+                            <Text profile="fs25_multiTextOptionText" name="text" />
+                        </MultiTextOption>
+                        <Text profile="taskListIntroText" text="$l10n_ui_task_request_condition_level" position="-380px 92px" size="360px 22px" />
+                        <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="conditionLevelOption" position="40px 92px" size="480px 44px" onClick="onConditionLevelChange">
+                            <Text profile="fs25_multiTextOptionText" name="text" />
+                        </MultiTextOption>
+                    </GuiElement>
+
+                    <GuiElement id="productionBlock" position="0px 0px">
+                        <Text profile="taskListIntroText" text="$l10n_ui_task_request_production" position="-380px 0px" size="360px 22px" />
+                        <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="productionOption" position="40px 0px" size="480px 44px" onClick="onProductionChange">
+                            <Text profile="fs25_multiTextOptionText" name="text" />
+                        </MultiTextOption>
+                        <Text profile="taskListIntroText" text="$l10n_ui_task_request_production_type" position="-380px 46px" size="360px 22px" />
+                        <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="productionIoOption" position="40px 46px" size="480px 44px" onClick="onProductionIoChange">
+                            <Text profile="fs25_multiTextOptionText" name="text" />
+                        </MultiTextOption>
+                        <Text profile="taskListIntroText" text="$l10n_ui_task_request_production_fill_type" position="-380px 92px" size="360px 22px" />
+                        <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="productionFillOption" position="40px 92px" size="480px 44px" onClick="onProductionFillChange">
+                            <Text profile="fs25_multiTextOptionText" name="text" />
+                        </MultiTextOption>
+                        <Text profile="taskListIntroText" text="$l10n_ui_task_request_condition_evaluator" position="-380px 138px" size="360px 22px" />
+                        <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="productionEvalOption" position="40px 138px" size="480px 44px" onClick="onProductionEvalChange">
+                            <Text profile="fs25_multiTextOptionText" name="text" />
+                        </MultiTextOption>
+                        <Text profile="taskListIntroText" text="$l10n_ui_task_request_production_level" position="-380px 184px" size="360px 22px" />
+                        <MultiTextOption profile="fs25_subCategorySelectorTabbed" id="productionLevelOption" position="40px 184px" size="480px 44px" onClick="onProductionLevelChange">
+                            <Text profile="fs25_multiTextOptionText" name="text" />
+                        </MultiTextOption>
+                    </GuiElement>
+                </GuiElement>
+            </GuiElement>
+        </GuiElement>
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" text="$l10n_ui_btn_ok" onClick="onClickSave" />
+            <Button profile="buttonBack" text="$l10n_ui_btn_close" onClick="onClickCancel" />
+        </BoxLayout>
+    </GuiElement>
+</GUI>

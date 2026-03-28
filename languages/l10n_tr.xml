@@ -42,6 +42,9 @@
 		<text name="ui_group_exists_error" text="Bu isimde bir grup zaten var"/>
 		<text name="ui_no_name_specified_error" text="Grup için bir isim belirtilmedi"/>
 		<text name="ui_no_detail_specified_error" text="Görev ayrıntısı belirtilmedi"/>
+		<text name="ui_task_form_incomplete" text="Lütfen bu görev türü için tüm alanları doldurun."/>
+		<text name="ui_edit_task" text="Görevi düzenle"/>
+		<text name="ui_add_task" text="Yeni görev"/>
 		<text name="ui_no_group_selected_error" text="Kopyalanacak grup seçilmedi"/>
 		<text name="ui_no_task_selected" text="Görev seçilmedi"/>
 		<text name="ui_no_group_selected" text="Grup seçilmedi"/>

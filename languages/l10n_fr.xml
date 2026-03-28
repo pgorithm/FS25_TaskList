@@ -42,6 +42,9 @@
         <text name="ui_group_exists_error" text="Un groupe avec ce nom existe déjà"/>
         <text name="ui_no_name_specified_error" text="Aucun nom pour le groupe n'a été spécifié"/>
         <text name="ui_no_detail_specified_error" text="Aucune détail pour la tâche n'a été spécifié"/>
+        <text name="ui_task_form_incomplete" text="Veuillez remplir tous les champs pour ce type de tâche."/>
+        <text name="ui_edit_task" text="Modifier la tâche"/>
+        <text name="ui_add_task" text="Nouvelle tâche"/>
         <text name="ui_no_group_selected_error" text="Aucun groupe sélectionné pour copier"/>
         <text name="ui_no_task_selected" text="Aucune tâche sélectionnée"/>
         <text name="ui_no_group_selected" text="Aucun groupe sélectionné"/>

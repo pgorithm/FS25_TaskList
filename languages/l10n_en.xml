@@ -42,6 +42,9 @@
 		<text name="ui_group_exists_error" text="A group with this name already exists"/>
 		<text name="ui_no_name_specified_error" text="No name for the group was specified"/>
 		<text name="ui_no_detail_specified_error" text="No task detail was specified"/>
+		<text name="ui_task_form_incomplete" text="Please complete all fields for this task type."/>
+		<text name="ui_edit_task" text="Edit task"/>
+		<text name="ui_add_task" text="New task"/>
 		<text name="ui_no_group_selected_error" text="No group selected to copy"/>
 		<text name="ui_no_task_selected" text="No task selected"/>
 		<text name="ui_no_group_selected" text="No group selected"/>

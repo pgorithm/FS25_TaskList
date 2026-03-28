@@ -20,6 +20,7 @@ source(TaskList.dir .. "TaskGroup.lua")
 source(TaskList.dir .. "Task.lua")
 source(TaskList.dir .. "gui/MenuTaskList.lua")
 source(TaskList.dir .. "gui/ManageGroupsFrame.lua")
+source(TaskList.dir .. "gui/EditTaskFrame.lua")
 source(TaskList.dir .. "gui/ManageTasksFrame.lua")
 source(TaskList.dir .. "gui/tableRenderers/MonthlyTaskRenderer.lua")
 source(TaskList.dir .. "events/InitialClientStateEvent.lua")
@@ -43,6 +44,9 @@ function TaskList:loadMap()
 
     local manageGroupsFrame = ManageGroupsFrame.new(g_i18n)
     g_gui:loadGui(TaskList.dir .. "gui/ManageGroupsFrame.xml", "manageGroupsFrame", manageGroupsFrame)
+
+    local editTaskFrame = EditTaskFrame.new(g_i18n)
+    g_gui:loadGui(TaskList.dir .. "gui/EditTaskFrame.xml", "editTaskFrame", editTaskFrame)
 
     local manageTasksFrame = ManageTasksFrame.new(g_i18n)
     g_gui:loadGui(TaskList.dir .. "gui/ManageTasksFrame.xml", "manageTasksFrame", manageTasksFrame)
