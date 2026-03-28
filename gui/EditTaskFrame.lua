@@ -477,14 +477,66 @@ function EditTaskFrame:updateVisibility()
 
     local recurOn = std and self.shouldRecurOption:getState() == 1
     local mode = self.recurModeOption:getState()
-    self.recurModeOption:setVisible(std and recurOn)
     local needN = std and recurOn and (mode == Task.RECUR_MODE.EVERY_N_MONTHS or mode == Task.RECUR_MODE.EVERY_N_DAYS)
-    self.recurNLabel:setVisible(needN)
-    self.recurNOption:setVisible(needN)
     local needStart = std and recurOn and mode == Task.RECUR_MODE.EVERY_N_MONTHS
-    self.startPeriodOption:setVisible(needStart)
     local needPeriod = std and ((not recurOn) or mode == Task.RECUR_MODE.MONTHLY)
-    self.periodOption:setVisible(needPeriod)
+
+    self.recurModeRow:setVisible(std and recurOn)
+    self.recurNRow:setVisible(needN)
+    self.startPeriodRow:setVisible(needStart)
+    self.periodRow:setVisible(needPeriod)
+
+    self:reflowStandardDynamicRows()
+    self:applyTaskTypeSectionOffset()
+end
+
+local function rowActuallyVisible(row)
+    if row == nil then
+        return false
+    end
+    if row.getIsVisible ~= nil then
+        return row:getIsVisible()
+    end
+    return row.visible ~= false
+end
+
+--- Pack recurring / period rows under the fixed block (no gaps when middle rows are hidden).
+function EditTaskFrame:reflowStandardDynamicRows()
+    local y = 208
+    local function placeRow(row)
+        if not rowActuallyVisible(row) then
+            return
+        end
+        if row.setPosition ~= nil then
+            pcall(function()
+                row:setPosition(0, y)
+            end)
+        elseif row.position ~= nil then
+            row.position[2] = y
+        end
+        y = y + 52
+    end
+    placeRow(self.recurModeRow)
+    placeRow(self.recurNRow)
+    placeRow(self.startPeriodRow)
+    placeRow(self.periodRow)
+end
+
+--- When the task-type row is hidden, pull standard/linked sections up (no empty gap under title).
+function EditTaskFrame:applyTaskTypeSectionOffset()
+    local showType = self:shouldShowTaskType()
+    local offset = showType and 54 or 0
+    for _, sec in ipairs({ self.standardSection, self.linkedSection }) do
+        if sec ~= nil then
+            if sec.setPosition ~= nil then
+                pcall(function()
+                    sec:setPosition(0, offset)
+                end)
+            elseif sec.position ~= nil then
+                sec.position[2] = offset
+            end
+        end
+    end
 end
 
 function EditTaskFrame:onOpen()

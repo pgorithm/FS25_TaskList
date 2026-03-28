@@ -58,7 +58,8 @@
     <Profile name="taskListpricesMonthText" extends="fs25_pricesMonthText">
         <width value="122px" />
     </Profile>
-    <Profile name="editTaskFormRoot" extends="emptyPanel" with="anchorTopLeft pivotTopLeft" />
+    <!-- Full-width, top-pivot panel so the form stacks downward inside the dialog. -->
+    <Profile name="editTaskFormRoot" extends="emptyPanel" with="anchorTopStretchingX pivotTopLeft" />
     <Profile name="editTaskSection" extends="emptyPanel" with="anchorTopLeft pivotTopLeft" />
     <Profile name="editTaskFormRow" extends="emptyPanel" with="anchorTopStretchingX pivotTopLeft">
         <height value="52px" />

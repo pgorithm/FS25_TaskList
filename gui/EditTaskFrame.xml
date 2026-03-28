@@ -8,12 +8,13 @@
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
         <GuiElement profile="fs25_dialogContentContainer">
             <Animation profile="fs25_dialogLoading" id="iconLoadingElement" />
-            <Text profile="dialogTitle" id="titleText" text="$l10n_ui_edit_task" position="0px -28px" />
+            <Text profile="dialogTitle" id="titleText" text="$l10n_ui_edit_task" position="0px -30px" />
 
-            <GuiElement profile="editTaskFormRoot" id="formRoot" position="40px -268px" size="864px 600px">
+            <!-- Same vertical band as ManageTasks list (~-180px); grows downward, not into the title -->
+            <GuiElement profile="editTaskFormRoot" id="formRoot" position="32px -172px" size="856px 500px">
                 <GuiElement profile="editTaskFormRow" id="taskTypeRow" position="0px 0px">
                     <Text profile="editTaskFieldLabel" id="taskTypeHint" position="0px 6px" size="350px 40px" text="$l10n_ui_task_request_type_description" />
-                    <MultiTextOption profile="editTaskMultiOption" id="taskTypeOption" position="358px 2px" size="500px 44px" onClick="onTaskTypeChange">
+                    <MultiTextOption profile="editTaskMultiOption" id="taskTypeOption" position="358px 2px" size="490px 44px" onClick="onTaskTypeChange">
                         <Text profile="fs25_multiTextOptionText" name="text" />
                     </MultiTextOption>
                 </GuiElement>
@@ -21,47 +22,47 @@
                 <GuiElement profile="editTaskSection" id="standardSection" position="0px 54px">
                     <GuiElement profile="editTaskFormRow" position="0px 0px">
                         <Text profile="editTaskFieldLabel" text="$l10n_ui_set_task_detail" position="0px 6px" size="350px 40px" />
-                        <TextInput profile="editTaskTextInput" id="taskDetailInput" position="358px 4px" size="500px 40px" maxCharacters="45" />
+                        <TextInput profile="editTaskTextInput" id="taskDetailInput" position="358px 4px" size="490px 40px" maxCharacters="45" />
                     </GuiElement>
                     <GuiElement profile="editTaskFormRow" position="0px 52px">
                         <Text profile="editTaskFieldLabel" text="$l10n_ui_set_task_effort" position="0px 6px" size="350px 40px" />
-                        <MultiTextOption profile="editTaskMultiOption" id="effortOption" position="358px 2px" size="500px 44px" onClick="onEffortChange">
+                        <MultiTextOption profile="editTaskMultiOption" id="effortOption" position="358px 2px" size="490px 44px" onClick="onEffortChange">
                             <Text profile="fs25_multiTextOptionText" name="text" />
                         </MultiTextOption>
                     </GuiElement>
                     <GuiElement profile="editTaskFormRow" position="0px 104px">
                         <Text profile="editTaskFieldLabel" text="$l10n_ui_set_task_priority" position="0px 6px" size="350px 40px" />
-                        <MultiTextOption profile="editTaskMultiOption" id="priorityOption" position="358px 2px" size="500px 44px" onClick="onPriorityChange">
+                        <MultiTextOption profile="editTaskMultiOption" id="priorityOption" position="358px 2px" size="490px 44px" onClick="onPriorityChange">
                             <Text profile="fs25_multiTextOptionText" name="text" />
                         </MultiTextOption>
                     </GuiElement>
                     <GuiElement profile="editTaskFormRow" position="0px 156px">
                         <Text profile="editTaskFieldLabel" text="$l10n_ui_set_task_should_recur" position="0px 6px" size="350px 40px" />
-                        <MultiTextOption profile="editTaskMultiOption" id="shouldRecurOption" position="358px 2px" size="500px 44px" onClick="onShouldRecurChange">
+                        <MultiTextOption profile="editTaskMultiOption" id="shouldRecurOption" position="358px 2px" size="490px 44px" onClick="onShouldRecurChange">
                             <Text profile="fs25_multiTextOptionText" name="text" />
                         </MultiTextOption>
                     </GuiElement>
-                    <GuiElement profile="editTaskFormRow" position="0px 208px">
+                    <GuiElement profile="editTaskFormRow" id="recurModeRow" position="0px 208px">
                         <Text profile="editTaskFieldLabel" text="$l10n_ui_set_task_recur_mode" position="0px 6px" size="350px 40px" />
-                        <MultiTextOption profile="editTaskMultiOption" id="recurModeOption" position="358px 2px" size="500px 44px" onClick="onRecurModeChange">
+                        <MultiTextOption profile="editTaskMultiOption" id="recurModeOption" position="358px 2px" size="490px 44px" onClick="onRecurModeChange">
                             <Text profile="fs25_multiTextOptionText" name="text" />
                         </MultiTextOption>
                     </GuiElement>
-                    <GuiElement profile="editTaskFormRow" position="0px 260px">
+                    <GuiElement profile="editTaskFormRow" id="recurNRow" position="0px 260px">
                         <Text profile="editTaskFieldLabel" id="recurNLabel" text="$l10n_ui_set_task_n_months" position="0px 6px" size="350px 40px" />
-                        <MultiTextOption profile="editTaskMultiOption" id="recurNOption" position="358px 2px" size="500px 44px" onClick="onRecurNChange">
+                        <MultiTextOption profile="editTaskMultiOption" id="recurNOption" position="358px 2px" size="490px 44px" onClick="onRecurNChange">
                             <Text profile="fs25_multiTextOptionText" name="text" />
                         </MultiTextOption>
                     </GuiElement>
-                    <GuiElement profile="editTaskFormRow" position="0px 312px">
+                    <GuiElement profile="editTaskFormRow" id="startPeriodRow" position="0px 312px">
                         <Text profile="editTaskFieldLabel" text="$l10n_ui_set_task_start_period" position="0px 6px" size="350px 40px" />
-                        <MultiTextOption profile="editTaskMultiOption" id="startPeriodOption" position="358px 2px" size="500px 44px" onClick="onStartPeriodChange">
+                        <MultiTextOption profile="editTaskMultiOption" id="startPeriodOption" position="358px 2px" size="490px 44px" onClick="onStartPeriodChange">
                             <Text profile="fs25_multiTextOptionText" name="text" />
                         </MultiTextOption>
                     </GuiElement>
-                    <GuiElement profile="editTaskFormRow" position="0px 364px">
+                    <GuiElement profile="editTaskFormRow" id="periodRow" position="0px 364px">
                         <Text profile="editTaskFieldLabel" text="$l10n_ui_set_task_period" position="0px 6px" size="350px 40px" />
-                        <MultiTextOption profile="editTaskMultiOption" id="periodOption" position="358px 2px" size="500px 44px" onClick="onPeriodChange">
+                        <MultiTextOption profile="editTaskMultiOption" id="periodOption" position="358px 2px" size="490px 44px" onClick="onPeriodChange">
                             <Text profile="fs25_multiTextOptionText" name="text" />
                         </MultiTextOption>
                     </GuiElement>
@@ -70,7 +71,7 @@
                 <GuiElement profile="editTaskSection" id="linkedSection" position="0px 54px">
                     <GuiElement profile="editTaskFormRow" id="husbandryPickRow" position="0px 0px">
                         <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_husbandry" position="0px 6px" size="350px 40px" />
-                        <MultiTextOption profile="editTaskMultiOption" id="husbandryOption" position="358px 2px" size="500px 44px" onClick="onHusbandryChange">
+                        <MultiTextOption profile="editTaskMultiOption" id="husbandryOption" position="358px 2px" size="490px 44px" onClick="onHusbandryChange">
                             <Text profile="fs25_multiTextOptionText" name="text" />
                         </MultiTextOption>
                     </GuiElement>
@@ -78,13 +79,13 @@
                     <GuiElement profile="editTaskSection" id="foodBlock" position="0px 54px">
                         <GuiElement profile="editTaskFormRow" position="0px 0px">
                             <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_food_type" position="0px 6px" size="350px 40px" />
-                            <MultiTextOption profile="editTaskMultiOption" id="foodTypeOption" position="358px 2px" size="500px 44px" onClick="onFoodTypeChange">
+                            <MultiTextOption profile="editTaskMultiOption" id="foodTypeOption" position="358px 2px" size="490px 44px" onClick="onFoodTypeChange">
                                 <Text profile="fs25_multiTextOptionText" name="text" />
                             </MultiTextOption>
                         </GuiElement>
                         <GuiElement profile="editTaskFormRow" position="0px 52px">
                             <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_food_level" position="0px 6px" size="350px 40px" />
-                            <MultiTextOption profile="editTaskMultiOption" id="foodLevelOption" position="358px 2px" size="500px 44px" onClick="onFoodLevelChange">
+                            <MultiTextOption profile="editTaskMultiOption" id="foodLevelOption" position="358px 2px" size="490px 44px" onClick="onFoodLevelChange">
                                 <Text profile="fs25_multiTextOptionText" name="text" />
                             </MultiTextOption>
                         </GuiElement>
@@ -93,19 +94,19 @@
                     <GuiElement profile="editTaskSection" id="conditionBlock" position="0px 54px">
                         <GuiElement profile="editTaskFormRow" position="0px 0px">
                             <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_condition_type" position="0px 6px" size="350px 40px" />
-                            <MultiTextOption profile="editTaskMultiOption" id="conditionTypeOption" position="358px 2px" size="500px 44px" onClick="onConditionTypeChange">
+                            <MultiTextOption profile="editTaskMultiOption" id="conditionTypeOption" position="358px 2px" size="490px 44px" onClick="onConditionTypeChange">
                                 <Text profile="fs25_multiTextOptionText" name="text" />
                             </MultiTextOption>
                         </GuiElement>
                         <GuiElement profile="editTaskFormRow" position="0px 52px">
                             <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_condition_evaluator" position="0px 6px" size="350px 40px" />
-                            <MultiTextOption profile="editTaskMultiOption" id="conditionEvalOption" position="358px 2px" size="500px 44px" onClick="onConditionEvalChange">
+                            <MultiTextOption profile="editTaskMultiOption" id="conditionEvalOption" position="358px 2px" size="490px 44px" onClick="onConditionEvalChange">
                                 <Text profile="fs25_multiTextOptionText" name="text" />
                             </MultiTextOption>
                         </GuiElement>
                         <GuiElement profile="editTaskFormRow" position="0px 104px">
                             <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_condition_level" position="0px 6px" size="350px 40px" />
-                            <MultiTextOption profile="editTaskMultiOption" id="conditionLevelOption" position="358px 2px" size="500px 44px" onClick="onConditionLevelChange">
+                            <MultiTextOption profile="editTaskMultiOption" id="conditionLevelOption" position="358px 2px" size="490px 44px" onClick="onConditionLevelChange">
                                 <Text profile="fs25_multiTextOptionText" name="text" />
                             </MultiTextOption>
                         </GuiElement>
@@ -114,31 +115,31 @@
                     <GuiElement profile="editTaskSection" id="productionBlock" position="0px 0px">
                         <GuiElement profile="editTaskFormRow" position="0px 0px">
                             <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_production" position="0px 6px" size="350px 40px" />
-                            <MultiTextOption profile="editTaskMultiOption" id="productionOption" position="358px 2px" size="500px 44px" onClick="onProductionChange">
+                            <MultiTextOption profile="editTaskMultiOption" id="productionOption" position="358px 2px" size="490px 44px" onClick="onProductionChange">
                                 <Text profile="fs25_multiTextOptionText" name="text" />
                             </MultiTextOption>
                         </GuiElement>
                         <GuiElement profile="editTaskFormRow" position="0px 52px">
                             <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_production_type" position="0px 6px" size="350px 40px" />
-                            <MultiTextOption profile="editTaskMultiOption" id="productionIoOption" position="358px 2px" size="500px 44px" onClick="onProductionIoChange">
+                            <MultiTextOption profile="editTaskMultiOption" id="productionIoOption" position="358px 2px" size="490px 44px" onClick="onProductionIoChange">
                                 <Text profile="fs25_multiTextOptionText" name="text" />
                             </MultiTextOption>
                         </GuiElement>
                         <GuiElement profile="editTaskFormRow" position="0px 104px">
                             <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_production_fill_type" position="0px 6px" size="350px 40px" />
-                            <MultiTextOption profile="editTaskMultiOption" id="productionFillOption" position="358px 2px" size="500px 44px" onClick="onProductionFillChange">
+                            <MultiTextOption profile="editTaskMultiOption" id="productionFillOption" position="358px 2px" size="490px 44px" onClick="onProductionFillChange">
                                 <Text profile="fs25_multiTextOptionText" name="text" />
                             </MultiTextOption>
                         </GuiElement>
                         <GuiElement profile="editTaskFormRow" position="0px 156px">
                             <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_condition_evaluator" position="0px 6px" size="350px 40px" />
-                            <MultiTextOption profile="editTaskMultiOption" id="productionEvalOption" position="358px 2px" size="500px 44px" onClick="onProductionEvalChange">
+                            <MultiTextOption profile="editTaskMultiOption" id="productionEvalOption" position="358px 2px" size="490px 44px" onClick="onProductionEvalChange">
                                 <Text profile="fs25_multiTextOptionText" name="text" />
                             </MultiTextOption>
                         </GuiElement>
                         <GuiElement profile="editTaskFormRow" position="0px 208px">
                             <Text profile="editTaskFieldLabel" text="$l10n_ui_task_request_production_level" position="0px 6px" size="350px 40px" />
-                            <MultiTextOption profile="editTaskMultiOption" id="productionLevelOption" position="358px 2px" size="500px 44px" onClick="onProductionLevelChange">
+                            <MultiTextOption profile="editTaskMultiOption" id="productionLevelOption" position="358px 2px" size="490px 44px" onClick="onProductionLevelChange">
                                 <Text profile="fs25_multiTextOptionText" name="text" />
                             </MultiTextOption>
                         </GuiElement>
