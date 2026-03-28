@@ -214,6 +214,9 @@ function Task:readStream(streamId, connection)
     self.shouldRecur = streamReadBool(streamId)
     self.recurMode = streamReadInt32(streamId)
     self.nextN = streamReadInt32(streamId)
+    if self.recurMode == Task.RECUR_MODE.EVERY_N_MONTHS and self.nextN ~= 0 then
+        self.nextN = TaskListUtils.normalizePeriod(self.nextN)
+    end
     self.n = streamReadInt32(streamId)
     self.effort = streamReadInt32(streamId)
     self.type = streamReadInt32(streamId)
@@ -265,6 +268,9 @@ function Task:loadFromXMLFile(xmlFile, key)
     self.shouldRecur = getXMLBool(xmlFile, key .. "#shouldRecur")
     self.nextN = getXMLInt(xmlFile, key .. "#nextN")
     self.n = getXMLInt(xmlFile, key .. "#n")
+    if self.recurMode == Task.RECUR_MODE.EVERY_N_MONTHS and self.nextN ~= 0 then
+        self.nextN = TaskListUtils.normalizePeriod(self.nextN)
+    end
     self.effort = getXMLInt(xmlFile, key .. "#effort") or 1
     self.type = getXMLInt(xmlFile, key .. "#type") or Task.TASK_TYPE.Standard
     self.husbandryFood = getXMLString(xmlFile, key .. "#husbandryFood") or ""

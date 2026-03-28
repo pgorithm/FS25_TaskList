@@ -303,13 +303,21 @@ function MenuTaskList:populateCellForItemInSection(list, section, index, cell)
 
     local currentPeriod = g_currentMission.environment.currentPeriod
     local currentDay = g_currentMission.environment.currentDay
-    local overdue = task.period ~= currentPeriod
+    local overdue
     if task.recurMode == Task.RECUR_MODE.DAILY then
         overdue = false
     elseif task.recurMode == Task.RECUR_MODE.EVERY_N_DAYS then
         overdue = currentDay ~= taskInfo.createdMarker
     elseif task.recurMode == Task.RECUR_MODE.EVERY_N_MONTHS then
-        overdue = currentPeriod ~= taskInfo.createdMarker
+        -- Active list = current occurrence; show overdue only after leaving the spawn period (valid marker).
+        local marker = taskInfo.createdMarker
+        if marker ~= nil and marker >= 1 and marker <= 12 then
+            overdue = currentPeriod ~= marker
+        else
+            overdue = false
+        end
+    else
+        overdue = task.period ~= currentPeriod
     end
 
     if task.type == Task.TASK_TYPE.HusbandryFood then overdue = true end

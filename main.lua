@@ -140,7 +140,11 @@ function TaskList:loadFromXMLFile()
             local groupId = getXMLString(xmlFile, activeTaskKey .. "#groupId")
             local task = g_currentMission.taskList:addActiveTask(groupId, taskId)
             if task ~= nil then
-                task.createdMarker = getXMLInt(xmlFile, activeTaskKey .. "#createdMarker")
+                local marker = getXMLInt(xmlFile, activeTaskKey .. "#createdMarker")
+                if marker < 1 or marker > 12 then
+                    marker = g_currentMission.environment.currentPeriod
+                end
+                task.createdMarker = marker
             end
             j = j + 1
         end
@@ -669,8 +673,8 @@ function TaskList:checkAndAddActiveTaskIfDue(group, task)
         if task.recurMode == Task.RECUR_MODE.EVERY_N_DAYS or task.recurMode == Task.RECUR_MODE.EVERY_N_MONTHS then
             if group.type == TaskGroup.GROUP_TYPE.Standard then
                 task.nextN = task.nextN + task.n
-                if task.recurMode == Task.RECUR_MODE.EVERY_N_MONTHS and task.nextN > 12 then
-                    task.nextN = task.nextN - 12
+                if task.recurMode == Task.RECUR_MODE.EVERY_N_MONTHS then
+                    task.nextN = TaskListUtils.normalizePeriod(task.nextN)
                 end
             elseif group.type == TaskGroup.GROUP_TYPE.TemplateInstance then
                 if self.templateTasksAdded[group.templateGroupId] == nil then
@@ -690,8 +694,8 @@ function TaskList:updateTemplateAddedTasks()
         for taskId, _ in pairs(tasks) do
             local task = self.taskGroups[groupId].tasks[taskId]
             task.nextN = task.nextN + task.n
-            if task.recurMode == Task.RECUR_MODE.EVERY_N_MONTHS and task.nextN > 12 then
-                task.nextN = task.nextN - 12
+            if task.recurMode == Task.RECUR_MODE.EVERY_N_MONTHS then
+                task.nextN = TaskListUtils.normalizePeriod(task.nextN)
             end
         end
     end
@@ -791,10 +795,7 @@ function TaskList:getTasksForNextYear()
                         break
                     end
 
-                    local next = lastAdded + task.n
-                    if next > 12 then
-                        next = next - 12
-                    end
+                    local next = TaskListUtils.normalizePeriod(lastAdded + task.n)
 
                     table.insert(result[next],
                         { groupId = group.id, taskId = task.id, effort = effort, priority = task.priority })

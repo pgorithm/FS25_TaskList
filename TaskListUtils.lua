@@ -32,6 +32,21 @@ function TaskListUtils.convertPeriodToMonthNumber(period)
     return period
 end
 
+--- Folds a game period or month slot into 1..12 (e.g. after adding N-month intervals, including N > 12).
+function TaskListUtils.normalizePeriod(period)
+    if period == nil then
+        return 1
+    end
+    local p = math.floor(tonumber(period) or 1)
+    while p > 12 do
+        p = p - 12
+    end
+    while p < 1 do
+        p = p + 12
+    end
+    return p
+end
+
 function TaskListUtils.formatPeriodFullMonthName(period)
     if period == 1 then
         return g_i18n:getText("ui_month3")
