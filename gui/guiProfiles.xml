@@ -68,7 +68,8 @@
         <textSize value="16px" />
         <textColor value="$preset_colorWhite_50" />
         <textAlignment value="left" />
-        <textLayoutMode value="scrolling" />
+        <textLayoutMode value="truncate" />
+        <textMaxNumLines value="2" />
     </Profile>
     <Profile name="editTaskMultiOption" extends="fs25_subCategorySelectorTabbed" with="anchorTopLeft pivotTopLeft" />
     <Profile name="editTaskTextInput" extends="fs25_textInput" with="anchorTopLeft pivotTopLeft" />
