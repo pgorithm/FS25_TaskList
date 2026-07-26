@@ -1,13 +1,13 @@
 --
 -- FS25 - TaskList
 --
--- @Author: Ozz
--- @Date: 24.11.2024
+-- @OriginalAuthor: Ozz
+-- @Contrubutor: pgorithm
+-- @Date: 26.07.2026
 -- @Version: 1.0.0.0
 --
 -- Changelog:
---  1.0.0 (16.01.2024): Initial Release
---  1.0.1 (03/03/2025): Multiplayer fixes
+--  1.0.0 (26.07.2026): forked, bugfixes
 --
 math.randomseed(g_time or os.clock())
 

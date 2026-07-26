@@ -4,13 +4,15 @@
     <version>1.0.0.0</version>
     <iconFilename>icon_taskList.dds</iconFilename>
     <title>
-        <en>Task List</en>
-        <de>Aufgabenliste</de>
-        <fr>Liste Des Tâches</fr>
+        <en>Task List - Revisited</en>
+        <de>Task List - Revisited</de>
+        <fr>Task List - Revisited</fr>
+        <ru>Task List - Revisited</ru>
     </title>
     <description>
-            <en><![CDATA[Task List
+        <en><![CDATA[Task List
 
+Description:
 Maintained fork of the original Task List mod, which had been left unmaintained for a long time. Recurring-task bugs from upstream are fixed here.
 
 If you find yourself taking notes of what tasks you need to do, or even using external software, then Task List is here to help.
@@ -24,10 +26,12 @@ On the main menu, just above Settings, you will find a new menu with a clipboard
 - Got lots of fields and want to manage them as one? Create a template and use that repeatedly.
 - View currently due tasks in the menu and mark them complete when you've done them.
 - Plan ahead by looking at cumulative effort throughout the year. Also look ahead at the coming 12 months to see what tasks are coming up.
-- View currently due tasks without checking the menu by pressing Shift + T
 - Automatically track levels for animal food, conditions and production levels.
 
-- GitHub:
+Hotkeys:
+- Shift + T (Keyboard): Show currently due tasks without opening the menu. Keyboard only; use the menu on controller.
+
+GitHub:
 https://github.com/pgorithm/FS25_TaskList
 
 Changelog:
@@ -37,27 +41,29 @@ Changelog:
 - Fixed recurring tasks that stopped reappearing on their scheduled period (especially every-N-months).
 - Reworked create/edit task flow into a single screen.
 - Various UI layout and dialog fixes.
+]]></en>
+        <de><![CDATA[Aufgabenliste
 
-]]></en>		
-    <de><![CDATA[Aufgabenliste
-
+Beschreibung:
 Gepflegter Fork des ursprünglichen Task-List-Mods, der lange Zeit nicht mehr betreut wurde. Fehler bei wiederkehrenden Aufgaben aus dem Upstream sind hier behoben.
 
-Wenn Sie Notizen über die Aufgaben machen, die Sie erledigen müssen, oder sogar externe Software verwenden, dann ist Task List hier, um Ihnen zu helfen.
+Wenn Sie sich Notizen zu Ihren Aufgaben machen oder sogar externe Software nutzen, hilft Ihnen Task List weiter.
 
-Auf dem Hauptmenü, direkt oberhalb von Einstellungen, finden Sie ein neues Menü mit einem Klarstreifen-Symbol. Verwenden Sie dieses Menü, um mit den folgenden Funktionen zu beginnen:
+Im Hauptmenü, direkt oberhalb von Einstellungen, finden Sie ein neues Menü mit einem Klemmbrett-Symbol. Nutzen Sie dieses Menü für folgende Funktionen:
 
-- Erstellen Sie Gruppen, um verwandte Aufgaben zu speichern, wie zum Beispiel Feld 10 oder allgemeine Bauarbeiten.
-- Erstellen Sie eine einmalige Aufgabe oder eine Aufgabe, die täglich, monatlich, jeden N Monaten oder jeden N Tage wiederholt wird.
-- Geben Sie Aufgaben eine Priorität, damit Sie wissen, was Sie zuerst tun sollen.
-- Kaufen Sie ein neues Feld und möchten Sie Aufgaben von einem bestehenden Feld kopieren? Kein Problem, Sie können dies in Sekunden tun.
-- Haben Sie viele Felder und möchten Sie sie als einen verwalten? Erstellen Sie ein Modell und verwenden Sie es wiederholt.
-- Siehen Sie die aktuell fälligen Aufgaben im Menü an und markieren Sie sie als abgeschlossen, wenn Sie sie abgeschlossen haben.
-- Planen Sie im Voraus, indem Sie den kumulativen Effort über das ganze Jahr betrachten. Siehen Sie auch im Voraus die nächsten 12 Monate an, um zu sehen, welche Aufgaben sich ankommen.
-- Siehen Sie die aktuell fälligen Aufgaben ohne, dass Sie das Menü überprüfen, indem Sie Shift + T drücken.
-- Automatisch die Nährstoffe und die Umweltbedingungen für Tiere verfolgen, sowie die Produktionsniveaus.
+- Erstellen Sie Gruppen für zusammengehörige Aufgaben, z. B. Feld 10 oder allgemeine Hofaufgaben.
+- Erstellen Sie einmalige Aufgaben oder Aufgaben, die täglich, monatlich, alle N Monate oder alle N Tage wiederkehren.
+- Vergeben Sie Prioritäten, damit klar ist, was zuerst erledigt werden soll.
+- Neues Feld gekauft und Aufgaben von einem bestehenden Feld kopieren? Kein Problem — in wenigen Sekunden erledigt.
+- Viele Felder und möchten sie einheitlich verwalten? Erstellen Sie eine Vorlage und verwenden Sie sie mehrfach.
+- Sehen Sie fällige Aufgaben im Menü ein und markieren Sie sie als erledigt.
+- Planen Sie voraus: betrachten Sie den kumulierten Aufwand über das Jahr und die kommenden 12 Monate.
+- Verfolgen Sie automatisch Futterstände, Haltungsbedingungen und Produktionsstände.
 
-- GitHub:
+Tastaturbelegung:
+- Shift + T (Tastatur): Aktuell fällige Aufgaben anzeigen, ohne das Menü zu öffnen. Nur Tastatur; am Controller über das Menü.
+
+GitHub:
 https://github.com/pgorithm/FS25_TaskList
 
 Änderungsliste:
@@ -67,40 +73,73 @@ https://github.com/pgorithm/FS25_TaskList
 - Fehler behoben, bei dem wiederkehrende Aufgaben nicht mehr zum geplanten Zeitpunkt erschienen (besonders bei „Alle N Monate“).
 - Erstellen/Bearbeiten von Aufgaben in einem einzigen Fenster zusammengeführt.
 - Diverse UI- und Dialog-Korrekturen.
+]]></de>
+        <fr><![CDATA[Liste des tâches
 
-]]></de>	
-    <fr><![CDATA[Liste Des Tâches
-
+Description :
 Fork maintenu du mod Task List d'origine, longtemps laissé sans maintenance. Les bugs des tâches récurrentes issus de l'upstream sont corrigés ici.
 
-Si vous vous retrouvez à prendre des notes des tâches que vous devez accomplir, ou même à utiliser un logiciel externe, alors Task List est là pour vous aider.
+Si vous prenez des notes de vos tâches ou utilisez un logiciel externe, Task List est là pour vous aider.
 
-Sur le menu principal, juste au-dessus des Paramètres, vous trouverez un nouveau menu avec un icône de papier-collant. Utilisez ce menu pour commencer avec les fonctionnalités suivantes :
+Dans le menu principal, juste au-dessus des Paramètres, vous trouverez un nouveau menu avec une icône de presse-papiers. Utilisez ce menu pour les fonctionnalités suivantes :
 
-- Créez des groupes pour contenir des tâches liées, telles que le champ 10 ou les tâches agricoles générales.
-- Créez des tâches uniques ou des tâches qui se répètent quotidiennement, mensuellement, chaque N mois ou chaque N jours.
-- Donnez aux tâches une priorité pour savoir quoi faire en premier.
-- Achetez un nouveau champ et voulez copier des tâches d'un champ existant ? Pas de problème, vous pouvez le faire en quelques secondes.
-- Avez-vous beaucoup de champs et voulez les gérer comme un seul ? Créez un modèle et utilisez-le à plusieurs reprises.
-- Affichez les tâches actuellement en retard dans le menu et marquez-les complétées lorsque vous les avez terminées.
-- Plannez à l'avance en regardant l'effort cumulé tout au long de l'année. Regardez également à l'avance les 12 prochains mois pour voir ce qui se présente.
-- Affichez les tâches actuellement en retard sans vérifier le menu en appuyant sur Shift + T.
-- Suivre automatiquement les niveaux de nourriture et les conditions pour les animaux, ainsi que les niveaux de production.
+- Créez des groupes pour des tâches liées, comme le champ 10 ou les tâches générales de la ferme.
+- Créez des tâches uniques ou récurrentes : quotidiennement, mensuellement, tous les N mois ou tous les N jours.
+- Attribuez une priorité pour savoir quoi faire en premier.
+- Nouveau champ acheté et tâches à copier depuis un champ existant ? Pas de problème, en quelques secondes.
+- Beaucoup de champs à gérer de la même façon ? Créez un modèle et réutilisez-le.
+- Affichez les tâches actuellement dues dans le menu et marquez-les comme terminées.
+- Planifiez à l'avance grâce à l'effort cumulé sur l'année et aux 12 prochains mois.
+- Suivez automatiquement les niveaux de nourriture animale, les conditions et les niveaux de production.
 
-- GitHub:
+Raccourcis :
+- Shift + T (Clavier) : Afficher les tâches actuellement dues sans ouvrir le menu. Clavier uniquement ; utilisez le menu avec une manette.
+
+GitHub :
 https://github.com/pgorithm/FS25_TaskList
 
-Journal des modifications:
+Journal des modifications :
 
-1.0.0.0:
+1.0.0.0 :
 - Première version de ce fork maintenu (basé sur le mod Task List d'origine).
 - Correction des tâches récurrentes qui cessaient de réapparaître à la période prévue (surtout « tous les N mois »).
 - Création/édition des tâches regroupées en un seul écran.
 - Diverses corrections d'interface et de dialogues.
+]]></fr>
+        <ru><![CDATA[Список задач
 
-]]></fr>	
+Описание:
+Поддерживаемый форк оригинального мода Task List.
+
+Вместо записи задач на бумаге или использования сторонних программа — используйте Task List прямо в игре.
+
+В главном меню паузы, над «Настройками», появится новый пункт с иконкой планшета. Через него доступны следующие возможности:
+
+- Создавайте группы связанных задач, например «Поле 10» или «Общие задачи фермы».
+- Создавайте разовые задачи или повторяющиеся: ежедневно, ежемесячно, каждые N месяцев или каждые N дней.
+- Назначайте приоритет, чтобы понимать, что делать в первую очередь.
+- Купили новое поле и хотите скопировать задачи с существующего? Без проблем копируйте задачи в один клик!
+- Много полей и нужно управлять ими по шаблону? Создайте шаблон и используйте его повторно.
+- Просматривайте текущие задачи в меню и отмечайте их выполненение.
+- Планируйте заранее: смотрите суммарную нагрузку за год и задачи на ближайшие 12 месяцев.
+- Автоматически отслеживайте уровни корма животных, условия содержания и уровни производства.
+
+Горячие клавиши:
+- Shift + T (клавиатура): показать текущие задачи без открытия меню.
+
+GitHub:
+https://github.com/pgorithm/FS25_TaskList
+
+Список изменений:
+
+1.0.0.0:
+- Первый релиз этого поддерживаемого форка (на основе оригинального мода Task List).
+- Исправлены повторяющиеся задачи, которые переставали появляться по расписанию (особенно «каждые N месяцев»).
+- Создание и редактирование задач объединены в один экран.
+- Различные исправления интерфейса и диалогов.
+]]></ru>
     </description>
-	<extraSourceFiles>
+    <extraSourceFiles>
         <sourceFile filename="main.lua"/>
     </extraSourceFiles>
     <multiplayer supported="true"/>
