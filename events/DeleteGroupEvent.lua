@@ -38,8 +38,8 @@ function DeleteGroupEvent:run(connection)
         -- Remove any template instances that use this tempate
         for _, g in pairs(g_currentMission.taskList.taskGroups) do
             if g.type == TaskGroup.GROUP_TYPE.TemplateInstance and g.templateGroupId == self.id then
-                for _, task in pairs(group.tasks) do
-                    local key = g.id .. "_" .. task.id
+                for _, task in pairs(group:getTasks()) do
+                    local key = TaskList.makeActiveTaskKey(g.id, task.id)
                     g_currentMission.taskList.activeTasks[key] = nil
                 end
                 g_currentMission.taskList.taskGroups[g.id] = nil
@@ -51,21 +51,22 @@ function DeleteGroupEvent:run(connection)
         -- Remove any active tasks that are part of this template instance
         local templateGroup = g_currentMission.taskList.taskGroups[group.templateGroupId]
         if templateGroup then
-            for _, task in pairs(templateGroup.tasks) do
-                local key = group.id .. "_" .. task.id
+            for _, task in pairs(group:getTasks()) do
+                local key = TaskList.makeActiveTaskKey(group.id, task.id)
                 g_currentMission.taskList.activeTasks[key] = nil
             end
         end
     end
 
     -- Remove any active tasks for the group
-    for _, task in pairs(group.tasks) do
-        local key = group.id .. "_" .. task.id
+    for _, task in pairs(group:getTasks()) do
+        local key = TaskList.makeActiveTaskKey(group.id, task.id)
         g_currentMission.taskList.activeTasks[key] = nil
     end
 
     g_currentMission.taskList.taskGroups[self.id] = nil
 
+    g_currentMission.taskList:invalidateScheduleCache()
     g_messageCenter:publish(MessageType.TASK_GROUPS_UPDATED)
     g_messageCenter:publish(MessageType.ACTIVE_TASKS_UPDATED)
 end

@@ -30,16 +30,15 @@ end
 function MonthlyTaskRenderer:populateCellForItemInSection(list, section, index, cell)
     local meta = self.data[index]
     local group = g_currentMission.taskList.taskGroups[meta.groupId]
-    local task = group.tasks[meta.taskId]
-
-    if group.type == TaskGroup.GROUP_TYPE.TemplateInstance then
-        task = g_currentMission.taskList.taskGroups[group.templateGroupId].tasks[meta.taskId]
+    local task = group ~= nil and group:getTaskById(meta.taskId) or nil
+    if task == nil then
+        return
     end
 
     local effort = task.effort * group.effortMultiplier
 
     cell:getAttribute("group"):setText(group.name)
-    cell:getAttribute("detail"):setText(task.detail)
+    cell:getAttribute("detail"):setText(task:getTaskDescription())
     cell:getAttribute("priority"):setText(task.priority)
     cell:getAttribute("effort"):setText(effort)
 end

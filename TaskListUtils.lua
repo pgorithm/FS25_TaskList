@@ -1,5 +1,19 @@
 TaskListUtils = {}
 local g_currentModName = g_currentModName
+local PERIOD_MONTH_KEYS = {
+    "ui_month3",
+    "ui_month4",
+    "ui_month5",
+    "ui_month6",
+    "ui_month7",
+    "ui_month8",
+    "ui_month9",
+    "ui_month10",
+    "ui_month11",
+    "ui_month12",
+    "ui_month1",
+    "ui_month2",
+}
 
 function TaskListUtils.deepcopy(orig)
     local orig_type = type(orig)
@@ -48,30 +62,10 @@ function TaskListUtils.normalizePeriod(period)
 end
 
 function TaskListUtils.formatPeriodFullMonthName(period)
-    if period == 1 then
-        return g_i18n:getText("ui_month3")
-    elseif period == 2 then
-        return g_i18n:getText("ui_month4")
-    elseif period == 3 then
-        return g_i18n:getText("ui_month5")
-    elseif period == 4 then
-        return g_i18n:getText("ui_month6")
-    elseif period == 5 then
-        return g_i18n:getText("ui_month7")
-    elseif period == 6 then
-        return g_i18n:getText("ui_month8")
-    elseif period == 7 then
-        return g_i18n:getText("ui_month9")
-    elseif period == 8 then
-        return g_i18n:getText("ui_month10")
-    elseif period == 9 then
-        return g_i18n:getText("ui_month11")
-    elseif period == 10 then
-        return g_i18n:getText("ui_month12")
-    elseif period == 11 then
-        return g_i18n:getText("ui_month1")
-    elseif period == 12 then
-        return g_i18n:getText("ui_month2")
+    local monthKey = PERIOD_MONTH_KEYS[period]
+
+    if monthKey ~= nil then
+        return g_i18n:getText(monthKey)
     end
 end
 

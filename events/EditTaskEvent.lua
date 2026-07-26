@@ -57,5 +57,6 @@ function EditTaskEvent:run(connection)
         g_messageCenter:publish(MessageType.ACTIVE_TASKS_UPDATED)
     end
 
+    g_currentMission.taskList:invalidateScheduleCache()
     g_messageCenter:publish(MessageType.TASK_GROUPS_UPDATED)
 end

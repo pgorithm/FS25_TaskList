@@ -27,7 +27,6 @@ source(TaskList.dir .. "events/InitialClientStateEvent.lua")
 source(TaskList.dir .. "events/NewTaskGroupEvent.lua")
 source(TaskList.dir .. "events/EditTaskGroupEvent.lua")
 source(TaskList.dir .. "events/DeleteGroupEvent.lua")
-source(TaskList.dir .. "events/NewTaskGroupEvent.lua")
 source(TaskList.dir .. "events/CompleteTaskEvent.lua")
 source(TaskList.dir .. "events/DeleteTaskEvent.lua")
 source(TaskList.dir .. "events/EditTaskEvent.lua")
@@ -62,6 +61,10 @@ function TaskList:loadMap()
     self.objectIdCache = nil
     self.husbandries = nil
     self.productions = nil
+    self.husbandriesDirty = true
+    self.productionsDirty = true
+    self.nextYearTasksCache = nil
+    self.scheduleRevision = 0
     self.currentPeriod = g_currentMission.environment.currentPeriod
     self.currentDay = g_currentMission.environment.currentDay
 
@@ -78,11 +81,11 @@ end
 function TaskList:saveToXmlFile()
     if (not g_currentMission:getIsServer()) then return end
 
-    local savegameFolderPath = g_currentMission.missionInfo.savegameDirectory .. "/"
+    local savegameFolderPath = g_currentMission.missionInfo.savegameDirectory
     if savegameFolderPath == nil then
-        savegameFolderPath = ('%ssavegame%d'):format(getUserProfileAppPath(),
-            g_currentMission.missionInfo.savegameIndex .. "/")
+        savegameFolderPath = ('%ssavegame%d'):format(getUserProfileAppPath(), g_currentMission.missionInfo.savegameIndex)
     end
+    savegameFolderPath = savegameFolderPath .. "/"
 
     local key = "tasklist";
     local xmlFile = createXMLFile(key, savegameFolderPath .. "tasklist.xml", key);
@@ -230,6 +233,10 @@ function TaskList:populateObjectIdCache()
     end
 end
 
+function TaskList:invalidateObjectIdCache()
+    self.objectIdCache = nil
+end
+
 function TaskList:getObjectIdFromUniqueId(uniqueId)
     if self.objectIdCache == nil then
         self:populateObjectIdCache()
@@ -255,6 +262,7 @@ end
 
 function TaskList:updateHusbandries()
     self.husbandries = {}
+    self.husbandriesDirty = false
 
     if g_currentMission.isExitingGame then
         return
@@ -321,7 +329,7 @@ function TaskList:updateHusbandries()
 end
 
 function TaskList:getHusbandries()
-    if self.husbandries == nil then
+    if self.husbandries == nil or self.husbandriesDirty then
         self:updateHusbandries()
     end
     return self.husbandries
@@ -329,6 +337,7 @@ end
 
 function TaskList:updateProductions()
     self.productions = {}
+    self.productionsDirty = false
 
     if g_currentMission.isExitingGame then
         return
@@ -375,7 +384,7 @@ function TaskList:updateProductions()
 end
 
 function TaskList:getProductions()
-    if self.productions == nil then
+    if self.productions == nil or self.productionsDirty then
         self:updateProductions()
     end
     return self.productions
@@ -386,6 +395,7 @@ function TaskList:taskCleanup()
         return
     end
     local currentFarmId = self:getCurrentFarmId()
+    local changed = false
 
     -- Remove auto tasks that are orphaned as their dependent placeable is missing or fill types are broken
     local husbandries = self:getHusbandries()
@@ -414,10 +424,10 @@ function TaskList:taskCleanup()
 
                     if remove then
                         table.insert(toRemove, task.id)
-                        local key = group.id .. "_" .. task.id
+                        local key = TaskList.makeActiveTaskKey(group.id, task.id)
                         if self.activeTasks[key] ~= nil then
                             self.activeTasks[key] = nil
-                            g_messageCenter:publish(MessageType.ACTIVE_TASKS_UPDATED)
+                            changed = true
                         end
                     end
                 elseif task.type == Task.TASK_TYPE.Production then
@@ -430,10 +440,10 @@ function TaskList:taskCleanup()
 
                     if remove then
                         table.insert(toRemove, task.id)
-                        local key = group.id .. "_" .. task.id
+                        local key = TaskList.makeActiveTaskKey(group.id, task.id)
                         if self.activeTasks[key] ~= nil then
                             self.activeTasks[key] = nil
-                            g_messageCenter:publish(MessageType.ACTIVE_TASKS_UPDATED)
+                            changed = true
                         end
                     end
                 end
@@ -441,15 +451,18 @@ function TaskList:taskCleanup()
             for _, taskId in pairs(toRemove) do
                 print('Dropped task ' .. taskId .. ' from group ' .. group.id .. ' due to missing husbandry or bad fill type.')
                 group.tasks[taskId] = nil
+                changed = true
             end
         end
+    end
+
+    if changed then
+        self:invalidateScheduleCache()
+        g_messageCenter:publish(MessageType.ACTIVE_TASKS_UPDATED)
     end
 end
 
 function TaskList:hourChanged()
-    g_currentMission.taskList:updateHusbandries()
-    g_currentMission.taskList:updateProductions()
-
     g_currentMission.taskList:addOrClearAutoTasks()
 
     local period = g_currentMission.environment.currentPeriod
@@ -467,24 +480,28 @@ end
 function TaskList:currentMissionStarted()
     local self = g_currentMission.taskList
     g_messageCenter:subscribe(MessageType.HUSBANDRY_SYSTEM_ADDED_PLACEABLE, function(menu)
-        self:updateHusbandries()
+        self.husbandriesDirty = true
+        self:invalidateObjectIdCache()
         self:taskCleanup()
     end, self)
 
     g_messageCenter:subscribe(MessageType.HUSBANDRY_SYSTEM_REMOVED_PLACEABLE, function(menu)
-        self:updateHusbandries()
+        self.husbandriesDirty = true
+        self:invalidateObjectIdCache()
         self:taskCleanup()
     end, self)
 
     g_messageCenter:subscribe(MessageType.UNLOADING_STATIONS_CHANGED, function(menu)
-        self:updateHusbandries()
-        self:updateProductions()
+        self.husbandriesDirty = true
+        self.productionsDirty = true
+        self:invalidateObjectIdCache()
         self:taskCleanup()
     end, self)
 
     g_messageCenter:subscribe(MessageType.LOADING_STATIONS_CHANGED, function(menu)
-        self:updateHusbandries()
-        self:updateProductions()
+        self.husbandriesDirty = true
+        self.productionsDirty = true
+        self:invalidateObjectIdCache()
         self:taskCleanup()
     end, self)
 
@@ -525,8 +542,9 @@ function TaskList:currentMissionStarted()
 end
 
 function TaskList:playerFarmChanged()
-    g_currentMission.taskList:updateHusbandries()
-    g_currentMission.taskList:updateProductions()
+    g_currentMission.taskList.husbandriesDirty = true
+    g_currentMission.taskList.productionsDirty = true
+    g_currentMission.taskList:invalidateScheduleCache()
     g_currentMission.taskList:addOrClearAutoTasks()
     g_messageCenter:publish(MessageType.TASK_GROUPS_UPDATED)
     g_messageCenter:publish(MessageType.ACTIVE_TASKS_UPDATED)
@@ -539,6 +557,7 @@ function TaskList:onPeriodChanged()
     end
     g_currentMission.taskList.currentPeriod = g_currentMission.environment.currentPeriod
     g_currentMission.taskList.currentDay = g_currentMission.environment.currentDay
+    self:invalidateScheduleCache()
     self:updateTemplateAddedTasks()
 end
 
@@ -547,32 +566,40 @@ function TaskList:onDayChanged()
         self:addDailyTasks(group)
     end
     g_currentMission.taskList.currentDay = g_currentMission.environment.currentDay
+    self:invalidateScheduleCache()
     self:updateTemplateAddedTasks()
 end
 
 function TaskList:addOrClearAutoTasks()
+    local changed = false
     for _, group in pairs(self.taskGroups) do
         if group.type == TaskGroup.GROUP_TYPE.Standard then
             for _, task in pairs(group.tasks) do
                 if task.type == Task.TASK_TYPE.HusbandryFood or task.type == Task.TASK_TYPE.HusbandryConditions or task.type == Task.TASK_TYPE.Production then
-                    local wasActive = self.activeTasks[group.id .. "_" .. task.id] ~= nil
+                    local key = TaskList.makeActiveTaskKey(group.id, task.id)
+                    local wasActive = self.activeTasks[key] ~= nil
                     local isActive = self:checkAndAddActiveTaskIfDue(group, task)
                     if isActive then
-                        g_messageCenter:publish(MessageType.ACTIVE_TASKS_UPDATED)
+                        if not wasActive then
+                            changed = true
+                        end
                         if not wasActive and not g_sleepManager:getIsSleeping() then
                             g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO,
                                 task:getTaskDescription())
                         end
                     else
-                        local key = group.id .. "_" .. task.id
                         if self.activeTasks[key] ~= nil then
                             self.activeTasks[key] = nil
-                            g_messageCenter:publish(MessageType.ACTIVE_TASKS_UPDATED)
+                            changed = true
                         end
                     end
                 end
             end
         end
+    end
+
+    if changed then
+        g_messageCenter:publish(MessageType.ACTIVE_TASKS_UPDATED)
     end
 end
 
@@ -580,10 +607,7 @@ function TaskList:addGroupTasksForCurrentPeriod(group)
     if group.type == TaskGroup.GROUP_TYPE.Template then return end
     local additions = false
 
-    local tasks = group.tasks
-    if group.type == TaskGroup.GROUP_TYPE.TemplateInstance then
-        tasks = self.taskGroups[group.templateGroupId].tasks
-    end
+    local tasks = group:getTasks()
 
     for _, task in pairs(tasks) do
         if task.recurMode == Task.RECUR_MODE.NONE or task.recurMode == Task.RECUR_MODE.MONTHLY or task.recurMode == Task.RECUR_MODE.EVERY_N_MONTHS then
@@ -600,10 +624,7 @@ function TaskList:addDailyTasks(group)
     if group.type == TaskGroup.GROUP_TYPE.Template then return end
     local additions = false
 
-    local tasks = group.tasks
-    if group.type == TaskGroup.GROUP_TYPE.TemplateInstance then
-        tasks = self.taskGroups[group.templateGroupId].tasks
-    end
+    local tasks = group:getTasks()
 
     for _, task in pairs(tasks) do
         if task.recurMode == Task.RECUR_MODE.DAILY or task.recurMode == Task.RECUR_MODE.EVERY_N_DAYS then
@@ -717,10 +738,7 @@ function TaskList:addActiveTask(groupId, taskId)
         return
     end
 
-    local task = group.tasks[taskId]
-    if group.type == TaskGroup.GROUP_TYPE.TemplateInstance then
-        task = self.taskGroups[group.templateGroupId].tasks[taskId]
-    end
+    local task = group:getTaskById(taskId)
 
     if task == nil then
         print('TaskList:addActiveTask: Task not found: ' .. tostring(taskId) .. ' in group ' .. tostring(groupId))
@@ -738,7 +756,7 @@ function TaskList:addActiveTask(groupId, taskId)
         activeTask.createdMarker = g_currentMission.environment.currentPeriod
     end
 
-    local key = activeTask.groupId .. "_" .. activeTask.id
+    local key = TaskList.makeActiveTaskKey(activeTask.groupId, activeTask.id)
     self.activeTasks[key] = activeTask
     -- Expect caller to raise ACTIVE_TASKS_UPDATED as this is called repeatedly
     return activeTask
@@ -749,17 +767,34 @@ function TaskList:getActiveTasksForCurrentFarm()
     local currentFarmId = self:getCurrentFarmId()
     for _, at in pairs(self.activeTasks) do
         local group = self.taskGroups[at.groupId]
-        if group.farmId == currentFarmId or not g_currentMission.missionDynamicInfo.isMultiplayer then
-            local taskCopy = TaskListUtils.deepcopy(at)
+        if group ~= nil and (group.farmId == currentFarmId or not g_currentMission.missionDynamicInfo.isMultiplayer) then
+            local taskCopy = {
+                id = at.id,
+                groupId = at.groupId,
+                createdMarker = at.createdMarker
+            }
             table.insert(result, taskCopy)
         end
     end
     return result
 end
 
+function TaskList:invalidateScheduleCache()
+    self.scheduleRevision = (self.scheduleRevision or 0) + 1
+    self.nextYearTasksCache = nil
+end
+
 function TaskList:getTasksForNextYear()
-    local result = {}
     local currentFarmId = self:getCurrentFarmId()
+    local currentDay = g_currentMission.environment.currentDay
+    local currentPeriod = g_currentMission.environment.currentPeriod
+    local revision = self.scheduleRevision or 0
+    local cache = self.nextYearTasksCache
+    if cache ~= nil and cache.farmId == currentFarmId and cache.currentDay == currentDay and cache.currentPeriod == currentPeriod and cache.revision == revision then
+        return cache.tasks
+    end
+
+    local result = {}
     for i = 1, 12 do
         result[i] = {}
     end
@@ -768,10 +803,8 @@ function TaskList:getTasksForNextYear()
             continue
         end
 
-        local tasks = group.tasks
-        if group.type == TaskGroup.GROUP_TYPE.TemplateInstance then
-            tasks = self.taskGroups[group.templateGroupId].tasks
-        elseif group.type == TaskGroup.GROUP_TYPE.Template then
+        local tasks = group:getTasks()
+        if group.type == TaskGroup.GROUP_TYPE.Template then
             tasks = {}
         end
 
@@ -786,7 +819,7 @@ function TaskList:getTasksForNextYear()
                 table.insert(result[month],
                     { groupId = group.id, taskId = task.id, effort = effort, priority = task.priority })
             elseif task.recurMode == Task.RECUR_MODE.EVERY_N_MONTHS then
-                local currentMonth = TaskListUtils.convertPeriodToMonthNumber(g_currentMission.environment.currentPeriod)
+                local currentMonth = TaskListUtils.convertPeriodToMonthNumber(currentPeriod)
                 local firstMonth = TaskListUtils.convertPeriodToMonthNumber(task.nextN)
                 local count = firstMonth - currentMonth
                 if count < 0 then
@@ -809,12 +842,11 @@ function TaskList:getTasksForNextYear()
                     lastAdded = next
                 end
             elseif task.recurMode == Task.RECUR_MODE.DAILY or task.recurMode == Task.RECUR_MODE.EVERY_N_DAYS then
-                local startMonth = TaskListUtils.convertPeriodToMonthNumber(g_currentMission.environment.currentPeriod)
+                local startMonth = TaskListUtils.convertPeriodToMonthNumber(currentPeriod)
                 local currentMonth = startMonth
                 local daysPerPeriod = g_currentMission.environment.daysPerPeriod
                 local plannedDaysPerPeriod = g_currentMission.environment.plannedDaysPerPeriod
                 local currentDayInPeriod = g_currentMission.environment.currentDayInPeriod
-                local currentDay = g_currentMission.environment.currentDay
                 local startSeason = g_currentMission.environment:getSeasonAtDay(currentDay)
                 local seasonChanged = false
 
@@ -866,11 +898,19 @@ function TaskList:getTasksForNextYear()
         table.sort(result[i], function(k1, k2) return k1.priority < k2.priority end)
     end
 
+    self.nextYearTasksCache = {
+        farmId = currentFarmId,
+        currentDay = currentDay,
+        currentPeriod = currentPeriod,
+        revision = revision,
+        tasks = result
+    }
+
     return result
 end
 
 function TaskList:completeTask(groupId, taskId)
-    local key = groupId .. "_" .. taskId
+    local key = TaskList.makeActiveTaskKey(groupId, taskId)
     local task = self.activeTasks[key]
 
     if task == nil then
@@ -992,6 +1032,10 @@ function TaskList:groupExistsForCurrentFarm(name)
     return false
 end
 
+function TaskList.makeActiveTaskKey(groupId, taskId)
+    return groupId .. "_" .. taskId
+end
+
 function TaskList:getCurrentFarmId()
     local currentFarmId = -1
     local farm = g_farmManager:getFarmByUserId(g_currentMission.playerUserId)
@@ -1031,12 +1075,45 @@ function TaskList.ShowActiveTaskNotifications()
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO,
             g_i18n:getText("ui_no_active_tasks"))
     else
-        table.sort(tempActive, TaskListUtils.taskSortingFunction)
+        table.sort(tempActive, function(a, b)
+            local groupA = g_currentMission.taskList.taskGroups[a.groupId]
+            local groupB = g_currentMission.taskList.taskGroups[b.groupId]
+            local taskA = groupA ~= nil and groupA:getTaskById(a.id) or nil
+            local taskB = groupB ~= nil and groupB:getTaskById(b.id) or nil
+            local priorityA = taskA ~= nil and taskA.priority or math.huge
+            local priorityB = taskB ~= nil and taskB.priority or math.huge
+
+            if priorityA ~= priorityB then
+                return priorityA < priorityB
+            end
+
+            local fallbackA = ""
+            if groupA ~= nil then
+                fallbackA = groupA.name
+            elseif a.groupId ~= nil then
+                fallbackA = a.groupId
+            end
+
+            local fallbackB = ""
+            if groupB ~= nil then
+                fallbackB = groupB.name
+            elseif b.groupId ~= nil then
+                fallbackB = b.groupId
+            end
+
+            if fallbackA ~= fallbackB then
+                return fallbackA < fallbackB
+            end
+
+            return tostring(a.id) < tostring(b.id)
+        end)
         for _, activeTask in pairs(tempActive) do
             local group = g_currentMission.taskList.taskGroups[activeTask.groupId]
-            local task = group:getTaskById(activeTask.id)
-            local description = string.format("%s - %s", group.name, task:getTaskDescription())
-            g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, description)
+            local task = group ~= nil and group:getTaskById(activeTask.id) or nil
+            if group ~= nil and task ~= nil then
+                local description = string.format("%s - %s", group.name, task:getTaskDescription())
+                g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, description)
+            end
         end
     end
 

@@ -55,9 +55,7 @@ function ManageGroupsFrame:getNumberOfSections()
 end
 
 function ManageGroupsFrame:getNumberOfItemsInSection(list, section)
-    local count = 0
-    for _ in pairs(self.currentGroups) do count = count + 1 end
-    return count
+    return #self.currentGroups
 end
 
 function ManageGroupsFrame:getTitleForSectionHeader(list, section)
@@ -70,7 +68,10 @@ function ManageGroupsFrame:populateCellForItemInSection(list, section, index, ce
 
     local source = '-'
     if group.type == TaskGroup.GROUP_TYPE.TemplateInstance then
-        source = g_currentMission.taskList.taskGroups[group.templateGroupId].name
+        local templateGroup = g_currentMission.taskList.taskGroups[group.templateGroupId]
+        if templateGroup ~= nil then
+            source = templateGroup.name
+        end
     end
 
     cell:getAttribute("group"):setText(group.name)

@@ -31,13 +31,14 @@ function CompleteTaskEvent:run(connection)
         g_server:broadcastEvent(CompleteTaskEvent.new(self.groupId, self.taskId))
     end
 
-    local key = self.groupId .. "_" .. self.taskId
+    local key = TaskList.makeActiveTaskKey(self.groupId, self.taskId)
     g_currentMission.taskList.activeTasks[key] = nil
 
     -- Find the origin task and if it should not recur, delete it
     local sourceTask = g_currentMission.taskList.taskGroups[self.groupId].tasks[self.taskId]
     if sourceTask ~= nil and sourceTask.shouldRecur == false then
         g_currentMission.taskList.taskGroups[self.groupId].tasks[self.taskId] = nil
+        g_currentMission.taskList:invalidateScheduleCache()
         g_messageCenter:publish(MessageType.TASK_GROUPS_UPDATED)
     end
 

@@ -5,10 +5,22 @@ MenuTaskList.sortingFunction = function(k1, k2)
     local g1 = g_currentMission.taskList.taskGroups[k1.groupId]
     local g2 = g_currentMission.taskList.taskGroups[k2.groupId]
 
-    local t1 = g1:getTaskById(k1.id)
-    local t2 = g2:getTaskById(k2.id)
+    local t1 = g1 ~= nil and g1:getTaskById(k1.id) or nil
+    local t2 = g2 ~= nil and g2:getTaskById(k2.id) or nil
 
-    return t1.priority < t2.priority
+    local p1 = t1 ~= nil and t1.priority or math.huge
+    local p2 = t2 ~= nil and t2.priority or math.huge
+    if p1 ~= p2 then
+        return p1 < p2
+    end
+
+    local n1 = g1 ~= nil and g1.name or ""
+    local n2 = g2 ~= nil and g2.name or ""
+    if n1 ~= n2 then
+        return n1 < n2
+    end
+
+    return tostring(k1.id) < tostring(k2.id)
 end
 
 MenuTaskList.VIEW_MODE = {
@@ -281,9 +293,7 @@ function MenuTaskList:getNumberOfSections()
 end
 
 function MenuTaskList:getNumberOfItemsInSection(list, section)
-    local count = 0
-    for _ in pairs(self.currentTasks) do count = count + 1 end
-    return count
+    return #self.currentTasks
 end
 
 function MenuTaskList:getTitleForSectionHeader(list, section)

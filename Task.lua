@@ -1,5 +1,5 @@
 Task = {}
-local Group_mt = Class(Task)
+local Task_mt = Class(Task)
 
 Task.RECUR_MODE = {
     NONE = 0,
@@ -42,7 +42,7 @@ Task.PRODUCTION_TYPE = {
 function Task.new(customMt)
     local self = {}
 
-    setmetatable(self, customMt or Group_mt)
+    setmetatable(self, customMt or Task_mt)
 
     self.id = g_currentMission.taskList:generateId()
     self.detail = ""
@@ -69,7 +69,7 @@ end
 
 function Task:getObjectId()
     -- Lazy load the objectId if it is not set after loading from XML
-    if self.objectId == -1 then
+    if self.objectId == nil or self.objectId == -1 then
         self.objectId = g_currentMission.taskList:getObjectIdFromUniqueId(self.uniqueId)
     end
     return self.objectId
@@ -86,9 +86,14 @@ function Task:getTaskDescription()
             if self.husbandryFood == Task.TOTAL_FOOD_KEY then
                 description = string.format("%s %s", husbandry.name, g_i18n:getText("ui_task_food_fill_total"))
             else
-                local foodInfo = husbandry.keys[self.husbandryFood]
-                description = string.format("%s %s %s", husbandry.name, g_i18n:getText("ui_task_food_fill"),
-                    foodInfo.title)
+                local foodInfo = husbandry.keys ~= nil and husbandry.keys[self.husbandryFood] or nil
+                if foodInfo == nil then
+                    print("Task:getTaskDescription: food info is nil: taskId=" .. tostring(self.id) .. ", type=" .. tostring(self.type))
+                    description = 'N/A'
+                else
+                    description = string.format("%s %s %s", husbandry.name, g_i18n:getText("ui_task_food_fill"),
+                        foodInfo.title)
+                end
             end
         end
     elseif self.type == Task.TASK_TYPE.HusbandryConditions then
@@ -98,9 +103,14 @@ function Task:getTaskDescription()
             description = 'N/A'
         else
             local middleString = Task.EVALUATOR_DESCRIPTION_STRINGS[self.evaluator]
-            local conditionInfo = husbandry.conditionInfos[self.husbandryCondition]
-            description = string.format("%s %s %s", husbandry.name, g_i18n:getText(middleString),
-                conditionInfo.title)
+            local conditionInfo = husbandry.conditionInfos ~= nil and husbandry.conditionInfos[self.husbandryCondition] or nil
+            if conditionInfo == nil then
+                print("Task:getTaskDescription: condition info is nil: taskId=" .. tostring(self.id) .. ", type=" .. tostring(self.type))
+                description = 'N/A'
+            else
+                description = string.format("%s %s %s", husbandry.name, g_i18n:getText(middleString),
+                    conditionInfo.title)
+            end
         end
     elseif self.type == Task.TASK_TYPE.Production then
         local production = g_currentMission.taskList:getProductions()[self:getObjectId()]
@@ -110,13 +120,25 @@ function Task:getTaskDescription()
             description = 'N/A'
         else
             if self.productionType == Task.PRODUCTION_TYPE.INPUT then
-                local fillTypeName = production.inputs[self.productionFillType].title
-                description = string.format("%s: %s %s %s", production.name, g_i18n:getText("ui_task_production_input"),
-                    fillTypeName, highOrLow)
+                local fillInfo = production.inputs ~= nil and production.inputs[self.productionFillType] or nil
+                if fillInfo == nil then
+                    print("Task:getTaskDescription: production input fill info is nil: taskId=" .. tostring(self.id) .. ", type=" .. tostring(self.type))
+                    description = 'N/A'
+                else
+                    local fillTypeName = fillInfo.title
+                    description = string.format("%s: %s %s %s", production.name, g_i18n:getText("ui_task_production_input"),
+                        fillTypeName, highOrLow)
+                end
             else
-                local fillTypeName = production.outputs[self.productionFillType].title
-                description = string.format("%s: %s %s %s", production.name, g_i18n:getText("ui_task_production_output"),
-                    fillTypeName, highOrLow)
+                local fillInfo = production.outputs ~= nil and production.outputs[self.productionFillType] or nil
+                if fillInfo == nil then
+                    print("Task:getTaskDescription: production output fill info is nil: taskId=" .. tostring(self.id) .. ", type=" .. tostring(self.type))
+                    description = 'N/A'
+                else
+                    local fillTypeName = fillInfo.title
+                    description = string.format("%s: %s %s %s", production.name, g_i18n:getText("ui_task_production_output"),
+                        fillTypeName, highOrLow)
+                end
             end
         end
     end
@@ -254,8 +276,11 @@ function Task:saveToXmlFile(xmlFile, key)
     setXMLString(xmlFile, key .. "#productionFillType", self.productionFillType or "")
 
     if self:linksToPlaceable() then
-        local uniqueId = NetworkUtil.getObject(self:getObjectId()).uniqueId
-        setXMLString(xmlFile, key .. "#uniqueId", uniqueId)
+        local objectId = self:getObjectId()
+        local object = NetworkUtil.getObject(objectId)
+        if object ~= nil then
+            setXMLString(xmlFile, key .. "#uniqueId", object.uniqueId)
+        end
     end
 end
 

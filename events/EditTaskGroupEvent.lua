@@ -35,9 +35,10 @@ function EditTaskGroupEvent:run(connection)
         return
     end
 
-    group:copyValuesFromGroup(self.taskGroup, false)
+    group:copyEditableFieldsFromGroup(self.taskGroup)
 
+    g_currentMission.taskList:invalidateScheduleCache()
     g_messageCenter:publish(MessageType.TASK_GROUPS_UPDATED)
-    g_currentMission.taskList:addGroupTasksForCurrentPeriod(self.taskGroup)
-    g_currentMission.taskList:addDailyTasks(self.taskGroup)
+    g_currentMission.taskList:addGroupTasksForCurrentPeriod(group)
+    g_currentMission.taskList:addDailyTasks(group)
 end

@@ -49,6 +49,7 @@ function InitialClientStateEvent:readStream(streamId, connection)
 end
 
 function InitialClientStateEvent:run(connection)
+    g_currentMission.taskList:invalidateScheduleCache()
     g_messageCenter:publish(MessageType.TASK_GROUPS_UPDATED)
     g_messageCenter:publish(MessageType.ACTIVE_TASKS_UPDATED)
 end

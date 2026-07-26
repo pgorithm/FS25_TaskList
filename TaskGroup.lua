@@ -29,19 +29,40 @@ function TaskGroup.new(customMt)
 end
 
 function TaskGroup:getTaskById(id)
-    if self.type == TaskGroup.GROUP_TYPE.TemplateInstance then
-        local templateGroup = g_currentMission.taskList.taskGroups[self.templateGroupId]
-        return templateGroup:getTaskById(id)
-    end
-    return self.tasks[id]
+    return self:getTasks()[id]
 end
 
-function TaskGroup:copyValuesFromGroup(sourceGroup, includeId)
-    self.farmId = sourceGroup.farmId
+function TaskGroup:getTasks(visited)
+    if self.type == TaskGroup.GROUP_TYPE.TemplateInstance then
+        visited = visited or {}
+        local groupKey = self.id or self
+        if visited[groupKey] then
+            print("TaskGroup:getTasks: circular template group reference: " .. tostring(self.id))
+            return {}
+        end
+        visited[groupKey] = true
+
+        local templateGroup = g_currentMission.taskList.taskGroups[self.templateGroupId]
+        if templateGroup == nil then
+            return {}
+        end
+
+        return templateGroup:getTasks(visited)
+    end
+
+    return self.tasks
+end
+
+function TaskGroup:copyEditableFieldsFromGroup(sourceGroup)
     self.name = sourceGroup.name
     self.type = sourceGroup.type
     self.templateGroupId = sourceGroup.templateGroupId
     self.effortMultiplier = sourceGroup.effortMultiplier
+end
+
+function TaskGroup:copyValuesFromGroup(sourceGroup, includeId)
+    self.farmId = sourceGroup.farmId
+    self:copyEditableFieldsFromGroup(sourceGroup)
 
     for _, task in pairs(sourceGroup.tasks) do
         local newTask = Task.new()
