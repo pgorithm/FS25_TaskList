@@ -636,6 +636,48 @@ function EditTaskFrame:updateVisibility()
     end
 
     self:relayoutForm()
+    self:ensureGamepadFocus()
+end
+
+--- First interactive control currently visible (for controller / keyboard nav).
+function EditTaskFrame:getInitialFocusElement()
+    if editTaskRowVisible(self.taskTypeRow) then
+        return self.taskTypeOption
+    end
+    if editTaskRowVisible(self.standardSection) then
+        return self.taskDetailInput
+    end
+    if editTaskRowVisible(self.husbandryPickRow) then
+        return self.husbandryOption
+    end
+    if editTaskRowVisible(self.productionBlock) then
+        return self.productionOption
+    end
+    return nil
+end
+
+--- Keep a usable focus target after open / layout changes (gamepad cannot click to activate).
+function EditTaskFrame:ensureGamepadFocus(force)
+    local focused = FocusManager:getFocusedElement()
+    if not force and focused ~= nil then
+        local visible = true
+        if focused.getIsVisible ~= nil then
+            visible = focused:getIsVisible()
+        elseif focused.isVisible == false then
+            visible = false
+        end
+        local active = true
+        if focused.getIsActive ~= nil then
+            active = focused:getIsActive()
+        end
+        if visible and active then
+            return
+        end
+    end
+    local target = self:getInitialFocusElement()
+    if target ~= nil then
+        FocusManager:setFocus(target)
+    end
 end
 
 function EditTaskFrame:onOpen()
@@ -667,6 +709,8 @@ function EditTaskFrame:onOpen()
         self:populateLinkedForCurrentType()
     end)
     self:updateVisibility()
+    -- Force: previous dialog (ManageTasks) may leave FocusManager without a target in this GUI.
+    self:ensureGamepadFocus(true)
 end
 
 function EditTaskFrame:onClose()
