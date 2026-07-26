@@ -45,7 +45,7 @@ local function editTaskSetRowY(elem, y)
     if elem == nil or elem.setPosition == nil then
         return
     end
-    elem:setPosition("0px", string.format("%dpx", y))
+    elem:setPosition(0, y * g_pixelSizeY)
 end
 
 function EditTaskFrame:_optionCallbacksSuppressed()
@@ -169,10 +169,10 @@ function EditTaskFrame:relayoutForm()
     end
 
     if editTaskRowVisible(self.standardSection) then
-        self.standardSection:setPosition("0px", string.format("%dpx", sectionStart))
+        self.standardSection:setPosition(0, sectionStart * g_pixelSizeY)
         self:layoutRowStack(self._standardRows or {}, 0)
     elseif editTaskRowVisible(self.linkedSection) then
-        self.linkedSection:setPosition("0px", string.format("%dpx", sectionStart))
+        self.linkedSection:setPosition(0, sectionStart * g_pixelSizeY)
         local y2 = 0
         if editTaskRowVisible(self.husbandryPickRow) then
             editTaskSetRowY(self.husbandryPickRow, y2)
