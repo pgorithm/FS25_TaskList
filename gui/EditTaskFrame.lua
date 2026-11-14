@@ -571,7 +571,7 @@ function EditTaskFrame:syncStandardWidgetsFromTask()
 
     self.periodOption:setTexts(months)
     local perDef = TaskListUtils.convertPeriodToMonthNumber(g_currentMission.environment.currentPeriod)
-    if self.task.period ~= 1 then
+    if self.isEdit or self.task.period ~= 1 then
         perDef = TaskListUtils.convertPeriodToMonthNumber(self.task.period)
     end
     self.periodOption:setState(perDef, false)

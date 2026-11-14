@@ -1,19 +1,5 @@
 TaskListUtils = {}
 local g_currentModName = g_currentModName
-local PERIOD_MONTH_KEYS = {
-    "ui_month3",
-    "ui_month4",
-    "ui_month5",
-    "ui_month6",
-    "ui_month7",
-    "ui_month8",
-    "ui_month9",
-    "ui_month10",
-    "ui_month11",
-    "ui_month12",
-    "ui_month1",
-    "ui_month2",
-}
 
 function TaskListUtils.deepcopy(orig)
     local orig_type = type(orig)
@@ -30,8 +16,18 @@ function TaskListUtils.deepcopy(orig)
     return copy
 end
 
+--- Period->month offset matches g_i18n:formatPeriod: +2 northern maps, +8 southern (latitude < 0).
+function TaskListUtils.getPeriodMonthOffset()
+    local env = g_currentMission ~= nil and g_currentMission.environment or nil
+    local daylight = env ~= nil and env.daylight or nil
+    if daylight ~= nil and daylight.latitude ~= nil and daylight.latitude < 0 then
+        return 8
+    end
+    return 2
+end
+
 function TaskListUtils.convertMonthNumberToPeriod(month)
-    month = month - 2
+    month = month - TaskListUtils.getPeriodMonthOffset()
     if month <= 0 then
         month = month + 12
     end
@@ -39,7 +35,7 @@ function TaskListUtils.convertMonthNumberToPeriod(month)
 end
 
 function TaskListUtils.convertPeriodToMonthNumber(period)
-    period = period + 2
+    period = period + TaskListUtils.getPeriodMonthOffset()
     if period > 12 then
         period = period - 12
     end
@@ -61,12 +57,8 @@ function TaskListUtils.normalizePeriod(period)
     return p
 end
 
-function TaskListUtils.formatPeriodFullMonthName(period)
-    local monthKey = PERIOD_MONTH_KEYS[period]
-
-    if monthKey ~= nil then
-        return g_i18n:getText(monthKey)
-    end
+function TaskListUtils.formatPeriodFullMonthName(period, useShort)
+    return g_i18n:formatPeriod(period, useShort)
 end
 
 -- Courtesy of PowerTools

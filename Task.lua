@@ -175,6 +175,7 @@ function Task:getDueDescription(multiplier)
     elseif self.recurMode == Task.RECUR_MODE.EVERY_N_MONTHS then
         return string.format(g_i18n:getText("ui_task_due_n_months"), self.n)
     end
+    return monthString
 end
 
 function Task:copyValuesFromTask(sourceTask, includeId)

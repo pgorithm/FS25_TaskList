@@ -2,7 +2,7 @@
 -- FS25 - TaskList
 --
 -- @OriginalAuthor: Ozz
--- @Contrubutor: pgorithm
+-- @Contributor: pgorithm
 -- @Date: 26.07.2026
 -- @Version: 1.0.0.0
 --
@@ -147,7 +147,7 @@ function TaskList:loadFromXMLFile()
             local groupId = getXMLString(xmlFile, activeTaskKey .. "#groupId")
             local task = g_currentMission.taskList:addActiveTask(groupId, taskId)
             if task ~= nil then
-                local marker = getXMLInt(xmlFile, activeTaskKey .. "#createdMarker")
+                local marker = Utils.getNoNil(getXMLInt(xmlFile, activeTaskKey .. "#createdMarker"), 0)
                 if marker < 1 or marker > 12 then
                     marker = g_currentMission.environment.currentPeriod
                 end
@@ -853,13 +853,14 @@ function TaskList:getTasksForNextYear()
                 local increment = 1
                 local firstDay = currentDay
                 if task.recurMode == Task.RECUR_MODE.EVERY_N_DAYS then
-                    increment = task.n
-                    firstDay = task.nextN
+                    increment = task.n or 1
+                    firstDay = task.nextN or currentDay
                 end
 
-                if currentDayInPeriod + increment > daysPerPeriod then
+                currentDayInPeriod = currentDayInPeriod + increment
+                while currentDayInPeriod > daysPerPeriod do
+                    currentDayInPeriod = currentDayInPeriod - daysPerPeriod
                     currentMonth = currentMonth + 1
-                    currentDayInPeriod = daysPerPeriod - (currentDayInPeriod + increment)
                     if currentMonth > 12 then
                         currentMonth = currentMonth - 12
                     end
@@ -868,21 +869,24 @@ function TaskList:getTasksForNextYear()
                 table.insert(result[currentMonth],
                     { groupId = group.id, taskId = task.id, effort = effort, priority = task.priority })
                 local lastAdded = firstDay
+                local monthsAdvanced = 0
                 while true do
                     if not seasonChanged and startSeason ~= g_currentMission.environment:getSeasonAtDay(lastAdded) then
                         daysPerPeriod = plannedDaysPerPeriod
                         seasonChanged = true
                     end
 
-                    if currentDayInPeriod + increment > daysPerPeriod then
+                    currentDayInPeriod = currentDayInPeriod + increment
+                    while currentDayInPeriod > daysPerPeriod do
+                        currentDayInPeriod = currentDayInPeriod - daysPerPeriod
                         currentMonth = currentMonth + 1
-                        currentDayInPeriod = daysPerPeriod - (currentDayInPeriod + increment)
+                        monthsAdvanced = monthsAdvanced + 1
                         if currentMonth > 12 then
                             currentMonth = currentMonth - 12
                         end
                     end
 
-                    if currentMonth == startMonth then
+                    if monthsAdvanced >= 12 or currentMonth == startMonth then
                         break
                     end
 

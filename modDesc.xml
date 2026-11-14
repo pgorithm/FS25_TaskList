@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="105">
+<modDesc descVersion="106">
     <author>pgorithm</author>
+    <contributors>
+        <contributor>Ozz (original Task List mod)</contributor>
+        <contributor>pgorithm (fork maintenance)</contributor>
+    </contributors>
     <version>1.0.0.0</version>
     <iconFilename>icon_taskList.dds</iconFilename>
     <title>
@@ -55,18 +59,18 @@ Im Hauptmenü, direkt oberhalb von Einstellungen, finden Sie ein neues Menü mit
 - Erstellen Sie einmalige Aufgaben oder Aufgaben, die täglich, monatlich, alle N Monate oder alle N Tage wiederkehren.
 - Vergeben Sie Prioritäten, damit klar ist, was zuerst erledigt werden soll.
 - Neues Feld gekauft und Aufgaben von einem bestehenden Feld kopieren? Kein Problem — in wenigen Sekunden erledigt.
-- Viele Felder und möchten sie einheitlich verwalten? Erstellen Sie eine Vorlage und verwenden Sie sie mehrfach.
-- Sehen Sie fällige Aufgaben im Menü ein und markieren Sie sie als erledigt.
-- Planen Sie voraus: betrachten Sie den kumulierten Aufwand über das Jahr und die kommenden 12 Monate.
+- Sie verwalten viele Felder und möchten sie einheitlich behandeln? Erstellen Sie eine Vorlage und verwenden Sie sie mehrfach.
+- Sehen Sie im Menü fällige Aufgaben ein und markieren Sie sie als erledigt.
+- Planen Sie voraus: Betrachten Sie den kumulierten Aufwand über das Jahr und die kommenden 12 Monate.
 - Verfolgen Sie automatisch Futterstände, Haltungsbedingungen und Produktionsstände.
 
-Tastaturbelegung:
+Tastenkürzel:
 - Shift + T (Tastatur): Aktuell fällige Aufgaben anzeigen, ohne das Menü zu öffnen. Nur Tastatur; am Controller über das Menü.
 
 GitHub:
 https://github.com/pgorithm/FS25_TaskList
 
-Änderungsliste:
+Änderungsprotokoll:
 
 1.0.0.0:
 - Erste Veröffentlichung dieses gepflegten Forks (basierend auf dem ursprünglichen Task-List-Mod).
@@ -125,7 +129,7 @@ Journal des modifications :
 - Автоматически отслеживайте уровни корма животных, условия содержания и уровни производства.
 
 Горячие клавиши:
-- Shift + T (клавиатура): показать текущие задачи без открытия меню.
+- Shift + T (клавиатура): показать текущие задачи без открытия меню. Только клавиатура; на контроллере используйте меню.
 
 GitHub:
 https://github.com/pgorithm/FS25_TaskList
