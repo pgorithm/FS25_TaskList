@@ -5,7 +5,7 @@
         <contributor>Ozz (original Task List mod)</contributor>
         <contributor>pgorithm (fork maintenance)</contributor>
     </contributors>
-    <version>1.0.0.0</version>
+    <version>1.0.1.0</version>
     <iconFilename>icon_taskList.dds</iconFilename>
     <title>
         <en>Task List - Revisited</en>
@@ -40,6 +40,12 @@ https://github.com/pgorithm/FS25_TaskList
 
 Changelog:
 
+1.0.1.0:
+- Fixed seasonal period/month alignment on southern-hemisphere maps (offset now respects map latitude).
+- Fixed next-occurrence calculation for tasks recurring every N days or every N months.
+- Safer loading of saved tasks: defaults added for missing marker, interval and next-day data.
+- Edit-task screen now keeps the task's saved period instead of resetting it to the current month.
+
 1.0.0.0:
 - First release of this maintained fork (based on the original Task List mod).
 - Fixed recurring tasks that stopped reappearing on their scheduled period (especially every-N-months).
@@ -71,6 +77,12 @@ GitHub:
 https://github.com/pgorithm/FS25_TaskList
 
 Änderungsprotokoll:
+
+1.0.1.0:
+- Saisonale Perioden-/Monatszuordnung auf Karten der südlichen Hemisphäre korrigiert (Versatz berücksichtigt jetzt den Breitengrad der Karte).
+- Berechnung des nächsten Termins für Aufgaben korrigiert, die alle N Tage oder alle N Monate wiederkehren.
+- Sichereres Laden gespeicherter Aufgaben: Standardwerte für fehlende Markierungs-, Intervall- und Folgetag-Daten ergänzt.
+- Der Bearbeitungsbildschirm behält nun die gespeicherte Periode der Aufgabe, statt sie auf den aktuellen Monat zurückzusetzen.
 
 1.0.0.0:
 - Erste Veröffentlichung dieses gepflegten Forks (basierend auf dem ursprünglichen Task-List-Mod).
@@ -104,6 +116,12 @@ https://github.com/pgorithm/FS25_TaskList
 
 Journal des modifications :
 
+1.0.1.0 :
+- Alignement période/mois corrigé sur les cartes de l'hémisphère sud (le décalage tient désormais compte de la latitude de la carte).
+- Correction du calcul de la prochaine échéance pour les tâches récurrentes tous les N jours ou tous les N mois.
+- Chargement des tâches sauvegardées plus sûr : valeurs par défaut ajoutées pour les données de marqueur, d'intervalle et de jour manquantes.
+- L'écran d'édition conserve désormais la période enregistrée de la tâche au lieu de la réinitialiser au mois courant.
+
 1.0.0.0 :
 - Première version de ce fork maintenu (basé sur le mod Task List d'origine).
 - Correction des tâches récurrentes qui cessaient de réapparaître à la période prévue (surtout « tous les N mois »).
@@ -135,6 +153,12 @@ GitHub:
 https://github.com/pgorithm/FS25_TaskList
 
 Список изменений:
+
+1.0.1.0:
+- Исправлено соответствие сезонного периода и месяца на картах южного полушария (смещение теперь учитывает широту карты).
+- Исправлен расчёт следующего срока для задач, повторяющихся каждые N дней или каждые N месяцев.
+- Более надёжная загрузка сохранённых задач: добавлены значения по умолчанию для отсутствующих данных (маркер, интервал, следующий день).
+- Экран редактирования теперь сохраняет период задачи, а не сбрасывает его на текущий месяц.
 
 1.0.0.0:
 - Первый релиз этого поддерживаемого форка (на основе оригинального мода Task List).
